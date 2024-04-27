@@ -15,6 +15,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { Product } from '../../interfaces/product';
 import { ProductsService } from '../../services/products.service';
 import { UtilsService } from '../../services/utils.service';
+import { PRODUCTS } from '../../constants/excel';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -59,7 +60,9 @@ export class ProductsDashboardComponent {
 
   async ngOnInit() {
     // Get products from server
-    this.products = await this.productService.getProducts();
+    this.products = PRODUCTS;
+
+    // await this.productService.getProducts();
     // set products in table
     this.dataSource = new MatTableDataSource(this.products);
 
