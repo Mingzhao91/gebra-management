@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "gebra-products-managemen-668af": {
+      "hosting": {
+        "gebra-products-managements": [
+          "gebra-products-managemen-668af"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "gebra-products-managemen-668af"
+  }
+}

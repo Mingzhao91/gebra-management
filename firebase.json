@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "gebra-products-managements",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

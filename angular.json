@@ -30,6 +30,7 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -90,10 +91,28 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "gebra-products-managements:build:production",
+              "serveTarget": "gebra-products-managements:serve:production"
+            },
+            "development": {
+              "buildTarget": "gebra-products-managements:build:development",
+              "serveTarget": "gebra-products-managements:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }
