@@ -6,8 +6,15 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { SelectionModel } from '@angular/cdk/collections';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 import { Product } from '../../interfaces/product';
 import { ProductsService } from '../../services/products.service';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -19,14 +26,19 @@ import { ProductsService } from '../../services/products.service';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    MatCheckboxModule,
+    MatIconModule,
+    MatButtonModule,
+    MatToolbarModule,
   ],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.scss',
 })
 export class ProductsDashboardComponent {
-  products!: Product[];
+  products: Product[] = [];
   // table variables
   displayedColumns: string[] = [
+    'select',
     'pictureUrl',
     'modelNumber',
     'category',
@@ -35,22 +47,33 @@ export class ProductsDashboardComponent {
     'description',
   ];
   dataSource!: MatTableDataSource<Product>;
+  selection = new SelectionModel<Product>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private productService: ProductsService) {}
+  constructor(
+    private productService: ProductsService,
+    public utilsService: UtilsService
+  ) {}
 
   async ngOnInit() {
     // Get products from server
     this.products = await this.productService.getProducts();
     // set products in table
     this.dataSource = new MatTableDataSource(this.products);
+
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event: Event) {
@@ -61,4 +84,37 @@ export class ProductsDashboardComponent {
       this.dataSource.paginator.firstPage();
     }
   }
+
+  // selection
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+
+    console.log('this.selection.selected:');
+    console.log(this.selection.selected);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${
+      row.position + 1
+    }`;
+  }
+
+  exportExcelButtonOnClick() {}
 }

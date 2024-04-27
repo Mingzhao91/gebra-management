@@ -13,12 +13,42 @@ table {
   width: 100%;
 }
 
-td,
-th {
-  width: 16.5%;
-}
+// td,
+// th {
+//   width: 16.5%;
+// }
 
 .picture {
   width: 180px;
   height: 200px;
+}
+
+.mat-column-select {
+  width: 5%;
+}
+
+.mat-column-description {
+  width: 30%;
+}
+
+.mat-column-pictureUrl {
+  width: 20%;
+}
+
+// 55
+
+.mat-column-modelNumber {
+  width: 10%;
+}
+
+.mat-column-category {
+  width: 15%;
+}
+
+.mat-column-capacity {
+  width: 5%;
+}
+
+.mat-column-prices {
+  width: 10%;
 }
