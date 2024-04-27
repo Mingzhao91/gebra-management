@@ -10,6 +10,7 @@
   <button mat-fab
           extended
           color="primary"
+          [disabled]="selection.isEmpty()"
           (click)="exportExcelButtonOnClick()">
     <mat-icon>cloud_download</mat-icon>
     Export Excel
