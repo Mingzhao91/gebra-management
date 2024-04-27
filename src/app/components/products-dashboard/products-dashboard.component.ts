@@ -116,5 +116,9 @@ export class ProductsDashboardComponent {
     }`;
   }
 
-  exportExcelButtonOnClick() {}
+  exportExcelButtonOnClick() {
+    if (this.selection.selected && this.selection.selected.length > 0) {
+      this.utilsService.exportExcel(this.selection.selected, 'products');
+    }
+  }
 }
