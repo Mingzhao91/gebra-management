@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
 import moment from 'moment';
-
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
+// import { Buffer } from 'buffer';
+// import { get } from 'https';
+// import fetc} from 'node-fetch';
 
 import { Product, ProductExcel, ProductsExcel } from '../interfaces/product';
 import { HEADERS_MATCHER_ARR } from '../constants/excel';
@@ -11,7 +14,7 @@ import { HEADERS_MATCHER_ARR } from '../constants/excel';
   providedIn: 'root',
 })
 export class UtilsService {
-  constructor() {}
+  constructor(private currencyPipe: CurrencyPipe) {}
 
   formatStrToHtml(str: string) {
     return str.replaceAll('\\n', '<br>');
@@ -56,14 +59,14 @@ export class UtilsService {
   async getImageBuffer(path: string) {
     const imgSrc = path;
     const response = await fetch(imgSrc);
+    // console.log(response);
+
     const buffer = await response.arrayBuffer();
 
     return buffer;
   }
 
   async exportExcel(data: Product[], fileName: string) {
-    console.log(data);
-
     // Create a workbook
     const workbook = new ExcelJS.Workbook();
     // Create a sheet
@@ -80,8 +83,8 @@ export class UtilsService {
     // models should be grouped together
     const categoryGroup: ProductsExcel | null = this.getProductExcel(data);
 
-    console.log('categoryGroup: ');
-    console.log(categoryGroup);
+    // console.log('categoryGroup: ');
+    // console.log(categoryGroup);
 
     if (categoryGroup) {
       /*************************    Header  *************************/
@@ -167,28 +170,172 @@ export class UtilsService {
       this.centerCell(E6Cell);
       this.fontCell(E6Cell, 12, false);
       this.borderCell(E6Cell);
-    }
 
-    /*************************    Header  *************************/
-    const headers = HEADERS_MATCHER_ARR.map((item) => item.sheetHeader);
-    console.log(headers);
-    const rowIdx = 7;
-    const columnsArr = ['A', 'B', 'C', 'D', 'F'];
-    headers.forEach((header, index) => {
-      console.log(`${columnsArr[index]}${rowIdx}`);
-      console.log(header);
-      if (index === 3) {
-        worksheet.mergeCells(`${columnsArr[index]}${rowIdx}`, `E${rowIdx}`);
+      /*************************    Header  *************************/
+      const headers = HEADERS_MATCHER_ARR.map((item) => item.sheetHeader);
+      // console.log(headers);
+      const rowIdx = worksheet.rowCount + 1;
+      const columnsArr = ['A', 'B', 'C', 'D', 'F'];
+      headers.forEach((header, index) => {
+        // console.log(`${columnsArr[index]}${rowIdx}`);
+        // console.log(header);
+        if (index === 3) {
+          worksheet.mergeCells(`${columnsArr[index]}${rowIdx}`, `E${rowIdx}`);
+        }
+        const cell = worksheet.getCell(`${columnsArr[index]}${rowIdx}`);
+        cell.value = header;
+        this.centerCell(cell);
+        this.fontCell(cell, 12, false);
+        this.borderCell(cell);
+        this.fillCell(cell);
+      });
+
+      /*************************    Products  *************************/
+      for (const [category, productExcels] of Object.entries(categoryGroup)) {
+        // console.log('category: ', category);
+        // console.log('productExcel: ', productExcels);
+
+        // Insert category
+        worksheet.addRow([category]);
+        const rowIdx = worksheet.rowCount;
+        const row = worksheet.getRow(rowIdx);
+        row.height = 52;
+        worksheet.mergeCells(`A${rowIdx}:F${rowIdx}`);
+        const cell = worksheet.getCell(`A${rowIdx}`);
+        this.centerCell(cell);
+        this.fontCell(cell, 20);
+        this.borderCell(cell);
+        this.fillCell(cell);
+
+        // Insert Product
+        for (let i = 0; i < productExcels.length; i++) {
+          let productStartIdx = worksheet.rowCount + 1;
+          const productExcel = productExcels[i];
+          const { modelNumber, items } = productExcel;
+          const productEndIdx = productStartIdx + items.length - 1;
+          const pictureUrl =
+            productExcel.items.find((obj) => obj.pictureUrl != null)
+              ?.pictureUrl || '';
+
+          // TODO: Get image from URL
+          // 'assets/excel-logo.png'
+          const buffer = await this.getImageBuffer(pictureUrl);
+          // const base64: any = await this.getBase64ImageFromUrl(pictureUrl);
+
+          const productImageId = workbook.addImage({
+            buffer,
+            // base64: base64,
+            extension: 'jpeg',
+          });
+
+          // const imageResp = await axios.get(pictureUrl);
+          // console.log(imageResp.data);
+          // const imageBuffer = '';
+
+          items.forEach((item, itemIdx) => {
+            const usdPriceObj = item.prices.find(
+              (price) => price.currency.toLowerCase() === 'usd'
+            );
+            const rmbPriceObj = item.prices.find(
+              (price) => price.currency.toLowerCase() === 'cny'
+            );
+
+            const capacityText = item.capacity.replaceAll('\\n', '\t\n');
+            console.log('capacityText: ', capacityText);
+
+            worksheet.addRow([
+              items.length === 1 || itemIdx === 0 ? '' : '',
+              items.length === 1 || itemIdx === 0 ? modelNumber : '',
+
+              item.capacity.replaceAll('\\n', '\t\n'),
+              rmbPriceObj
+                ? this.currencyPipe
+                    .transform(
+                      rmbPriceObj.price,
+                      rmbPriceObj.currency.toUpperCase(),
+                      'symbol',
+                      '1.2-2'
+                    )
+                    ?.replace('CN', '')
+                : '',
+              usdPriceObj
+                ? this.currencyPipe.transform(
+                    usdPriceObj.price,
+                    usdPriceObj.currency.toUpperCase(),
+                    'symbol',
+                    '1.2-2'
+                  )
+                : '',
+              item.description.replaceAll('\\n', '\t\n'),
+            ]);
+          });
+
+          // Style cells
+          // Picture Url
+          // console.log('productStartIdx: ', productStartIdx);
+          // console.log('productEndIdx: ', productEndIdx);
+
+          if (items.length > 1) {
+            worksheet.mergeCells(`A${productStartIdx}:A${productEndIdx}`);
+          }
+
+          if (items.length === 1) {
+            worksheet.addImage(
+              productImageId,
+              {
+                tl: { col: 0, row: productStartIdx - 1 },
+                ext: { width: 140, height: 25 },
+              }
+              // `A${productStartIdx}:A${productStartIdx}`
+            );
+          } else if (items.length > 1) {
+            worksheet.addImage(
+              productImageId,
+              {
+                tl: { col: 0, row: productStartIdx - 1 },
+                ext: { width: 140, height: 25 },
+              }
+              // `A${productStartIdx}:A${productStartIdx}`
+            );
+          }
+
+          const pictureCell = worksheet.getCell(`A${productStartIdx}`);
+
+          // console.log('pictureCell.$col$row: ', pictureCell.$col$row);
+
+          this.centerCell(pictureCell);
+          this.borderCell(pictureCell);
+
+          // Model Url
+          if (items.length > 1) {
+            worksheet.mergeCells(`B${productStartIdx}:B${productEndIdx}`);
+          }
+          const modelNumberCell = worksheet.getCell(`B${productStartIdx}`);
+          // console.log(modelNumberCell.value);
+          this.centerCell(modelNumberCell);
+          this.fontCell(modelNumberCell, 12, false);
+          this.borderCell(modelNumberCell);
+
+          // Capacity, Price and Description
+          for (let i = productStartIdx; i <= productEndIdx; i++) {
+            const columnsArr = ['C', 'D', 'E', 'F'];
+            columnsArr.forEach((letter) => {
+              const cell = worksheet.getCell(`${letter}${i}`);
+              this.centerCell(cell);
+              this.fontCell(cell, 12, letter !== 'F');
+              this.borderCell(cell);
+            });
+          }
+
+          // TODO: increase row height
+          // const currentRow = worksheet.getRow(worksheet.rowCount);
+          // console.log('currentRow: ', currentRow);
+          // console.log('rowHeight: ', currentRow.height);
+          // currentRow.height = currentRow.height + 200;
+          // console.log('rowHeight: ', currentRow.height);
+        }
       }
-      const cell = worksheet.getCell(`${columnsArr[index]}${rowIdx}`);
-      cell.value = header;
-      this.centerCell(cell);
-      this.fontCell(cell, 12, false);
-      this.borderCell(cell);
-      this.fillCell(cell);
-    });
-
-    /*************************    Products  *************************/
+    }
 
     // // Add headers
     // const headers = HEADERS_MATCHER_ARR.map((item) => item.sheetHeader);
@@ -255,10 +402,51 @@ export class UtilsService {
   }
 
   fillCell(cell: ExcelJS.Cell) {
-    cell.fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      bgColor: { argb: 'FFFFFF00' },
-    };
+    // TODO: find out what the grey color in argb
+    // cell.fill = {
+    //   type: 'pattern',
+    //   pattern: 'solid',
+    //   bgColor: { argb: '#FFCDCBCB' },
+    // };
+  }
+
+  // urlToBuffer(imageUrl: string) {
+  //   fetch(imageUrl)
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(
+  //           `Failed to fetch the image. Status code: ${response.status}`
+  //         );
+  //       }
+  //       return response.buffer();
+  //     })
+  //     .then((imageBuffer) => {
+  //       // The 'imageBuffer' now contains the binary data of the image.
+  //       console.log('Image data buffered successfully!');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching the image:', error);
+  //     });
+  // }
+
+  async getBase64ImageFromUrl(imageUrl: string) {
+    var res = await fetch(imageUrl);
+    var blob = await res.blob();
+
+    return new Promise((resolve, reject) => {
+      var reader = new FileReader();
+      reader.addEventListener(
+        'load',
+        function () {
+          resolve(reader.result);
+        },
+        false
+      );
+
+      reader.onerror = () => {
+        return reject(this);
+      };
+      reader.readAsDataURL(blob);
+    });
   }
 }

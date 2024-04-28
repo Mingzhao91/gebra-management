@@ -60,9 +60,9 @@ export class ProductsDashboardComponent {
 
   async ngOnInit() {
     // Get products from server
+    // TODO: uncomment // await this.productService.getProducts();
     this.products = PRODUCTS;
 
-    // await this.productService.getProducts();
     // set products in table
     this.dataSource = new MatTableDataSource(this.products);
 

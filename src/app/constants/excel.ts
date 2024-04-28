@@ -38,7 +38,7 @@ export const PRODUCTS = [
       },
       {
         price: 31,
-        currency: 'RMB',
+        currency: 'CNY',
       },
     ],
     description:
@@ -55,7 +55,7 @@ export const PRODUCTS = [
       },
       {
         price: 35,
-        currency: 'RMB',
+        currency: 'CNY',
       },
     ],
     category:
@@ -68,13 +68,33 @@ export const PRODUCTS = [
       'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-W022-M.png?alt=media&token=fa141638-aa05-40f8-90a0-59e9cabc0de9',
   },
   {
+    capacity: '5000mAh\\n15W',
+    modelNumber: 'XN-M08-T',
+    description:
+      'Battery Type: Li-Polymer Battery \\n Material : Plastic with Rubber oil \\n Size:112*68*10mm/ 125.4g \\n Input:5V/2A (Lightning) \\n Wireless output :5W \\n Color:  Black/White \\n Feature:Transparent \\n                                                               Type-C input&output (PD) :5V-3A,9V-2A,12V-1.5A (Max) Wireless output :15W Max. （15W/10W/7.5W/5W）',
+    pictureUrl:
+      'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-M08-T.png?alt=media&token=ce8150dc-5a88-49e6-b488-26fb018a1180',
+    prices: [
+      {
+        currency: 'USD',
+        price: 5.57,
+      },
+      {
+        currency: 'CNY',
+        price: 39,
+      },
+    ],
+    category:
+      'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
+  },
+  {
     prices: [
       {
         price: 3.57,
         currency: 'USD',
       },
       {
-        currency: 'RMB',
+        currency: 'CNY',
         price: 25,
       },
     ],
@@ -100,7 +120,7 @@ export const PRODUCTS = [
         price: 5.29,
       },
       {
-        currency: 'RMB',
+        currency: 'CNY',
         price: 37,
       },
     ],
@@ -117,7 +137,7 @@ export const PRODUCTS = [
       },
       {
         price: 29,
-        currency: 'RMB',
+        currency: 'CNY',
       },
     ],
     pictureUrl:
@@ -125,25 +145,5 @@ export const PRODUCTS = [
     category:
       'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
     capacity: '5000mAh\\n5W',
-  },
-  {
-    capacity: '5000mAh\\n15W',
-    modelNumber: 'XN-M08-T',
-    description:
-      'Battery Type: Li-Polymer Battery \\n Material : Plastic with Rubber oil \\n Size:112*68*10mm/ 125.4g \\n Input:5V/2A (Lightning) \\n Wireless output :5W \\n Color:  Black/White \\n Feature:Transparent \\n                                                               Type-C input&output (PD) :5V-3A,9V-2A,12V-1.5A (Max) Wireless output :15W Max. （15W/10W/7.5W/5W）',
-    pictureUrl:
-      'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-M08-T.png?alt=media&token=ce8150dc-5a88-49e6-b488-26fb018a1180',
-    prices: [
-      {
-        currency: 'USD',
-        price: 5.57,
-      },
-      {
-        currency: 'RMB',
-        price: 39,
-      },
-    ],
-    category:
-      'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
   },
 ];
