@@ -281,7 +281,7 @@ export class UtilsService {
               productImageId,
               {
                 tl: { col: 0, row: productStartIdx - 1 },
-                ext: { width: 140, height: 25 },
+                ext: { width: 130, height: 150 },
               }
               // `A${productStartIdx}:A${productStartIdx}`
             );
@@ -290,7 +290,7 @@ export class UtilsService {
               productImageId,
               {
                 tl: { col: 0, row: productStartIdx - 1 },
-                ext: { width: 140, height: 25 },
+                ext: { width: 130, height: 150 },
               }
               // `A${productStartIdx}:A${productStartIdx}`
             );
@@ -399,12 +399,11 @@ export class UtilsService {
   }
 
   fillCell(cell: ExcelJS.Cell) {
-    // TODO: find out what the grey color in argb
-    // cell.fill = {
-    //   type: 'pattern',
-    //   pattern: 'solid',
-    //   bgColor: { argb: '#FFCDCBCB' },
-    // };
+    cell.fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFEEEEEE' },
+    };
   }
 
   // urlToBuffer(imageUrl: string) {
