@@ -11,6 +11,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { Product } from '../../interfaces/product';
 import { ProductsService } from '../../services/products.service';
@@ -31,6 +32,7 @@ import { PRODUCTS } from '../../constants/excel';
     MatIconModule,
     MatButtonModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.scss',
@@ -49,6 +51,7 @@ export class ProductsDashboardComponent {
   ];
   dataSource!: MatTableDataSource<Product>;
   selection = new SelectionModel<Product>(true, []);
+  isDownloading = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -119,9 +122,11 @@ export class ProductsDashboardComponent {
     }`;
   }
 
-  exportExcelButtonOnClick() {
+  async exportExcelButtonOnClick() {
     if (this.selection.selected && this.selection.selected.length > 0) {
-      this.utilsService.exportExcel(this.selection.selected, 'products');
+      this.isDownloading = true;
+      await this.utilsService.exportExcel(this.selection.selected, 'products');
+      this.isDownloading = false;
     }
   }
 }

@@ -1,4 +1,4 @@
-<mat-toolbar>
+<div class="filter-bar">
   <mat-form-field>
     <mat-label>Filter</mat-label>
     <input matInput
@@ -10,13 +10,18 @@
   <button mat-fab
           extended
           color="primary"
-          [disabled]="selection.isEmpty()"
+          [disabled]="selection.isEmpty() || isDownloading"
           (click)="exportExcelButtonOnClick()">
-    <mat-icon>cloud_download</mat-icon>
-    Export Excel
+    <mat-icon *ngIf="!isDownloading">cloud_download</mat-icon>
+
+    <div class="spinner-wrapper">
+      <mat-spinner *ngIf="isDownloading"
+                   [diameter]="20"></mat-spinner>
+      <span>{{isDownloading ? 'Exporting' : 'Export Excel'}}</span>
+    </div>
   </button>
 
-</mat-toolbar>
+</div>
 
 
 <div class="mat-elevation-z8 table-container">

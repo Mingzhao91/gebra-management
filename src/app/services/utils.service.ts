@@ -217,11 +217,8 @@ export class UtilsService {
             productExcel.items.find((obj) => obj.pictureUrl != null)
               ?.pictureUrl || '';
 
-          // TODO: Get image from URL
-          // 'assets/excel-logo.png'
           const buffer = await this.getImageBuffer(pictureUrl);
           // const base64: any = await this.getBase64ImageFromUrl(pictureUrl);
-
           const productImageId = workbook.addImage({
             buffer,
             // base64: base64,
