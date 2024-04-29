@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{data.product ? 'Edit Product' : 'Create Product'}}</h2>
+
+<mat-dialog-content>
+  <form>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button
+          mat-dialog-close>Cancel</button>
+  <button mat-button
+          [mat-dialog-close]="true"
+          cdkFocusInitial>{{data.product ? 'Update' : 'Create'}}</button>
+</mat-dialog-actions>

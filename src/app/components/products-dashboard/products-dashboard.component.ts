@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -15,18 +15,27 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogTitle,
+  MatDialogContent,
+} from '@angular/material/dialog';
 
 import { Product } from '../../interfaces/product';
 import { ProductsService } from '../../services/products.service';
 import { UtilsService } from '../../services/utils.service';
 import { PRODUCTS } from '../../constants/excel';
+import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 
 @Component({
   selector: 'app-products-dashboard',
   standalone: true,
   imports: [
+    // angular modules
     CommonModule,
     FormsModule,
+    // angular material modules
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
@@ -38,6 +47,8 @@ import { PRODUCTS } from '../../constants/excel';
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatDatepickerModule,
+    // components
+    ProductDialogComponent,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './products-dashboard.component.html',
@@ -64,6 +75,7 @@ export class ProductsDashboardComponent {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    public dialog: MatDialog,
     private productService: ProductsService,
     public utilsService: UtilsService
   ) {}
@@ -143,5 +155,13 @@ export class ProductsDashboardComponent {
       );
       this.isDownloading = false;
     }
+  }
+
+  addProductButtonOnClick() {
+    this.dialog.open(ProductDialogComponent, {
+      data: {
+        product: null,
+      },
+    });
   }
 }
