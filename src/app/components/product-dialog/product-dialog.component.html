@@ -1,12 +1,58 @@
 <h2 mat-dialog-title>{{data.product ? 'Edit Product' : 'Create Product'}}</h2>
 
 <mat-dialog-content>
-  <form>
+  <form [formGroup]="productForm"
+        class="product-form">
+    <!-- modelNumber -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Model Number</mat-label>
+      <input type="text"
+             matInput
+             formControlName="modelNumber"
+             [errorStateMatcher]="matcher"
+             placeholder="Ex. XN-M08-2">
+      @if (productForm.get('modelNumber')?.hasError('required')) {
+      <mat-error>Model number is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+
+    <!-- category -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="category"
+                  required>
+        <mat-option>--</mat-option>
+        @for (category of categories; track category) {
+        <mat-option [value]="category">{{category}}</mat-option>
+        }
+      </mat-select>
+      @if (productForm.get('category')?.hasError('required')) {
+      <mat-error>Please choose a category</mat-error>
+      }
+    </mat-form-field>
+
+
+    <!-- capacity -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Capacity</mat-label>
+      <input type="text"
+             matInput
+             formControlName="capacity"
+             [errorStateMatcher]="matcher"
+             placeholder="5000mAh 15W">
+    </mat-form-field>
+
 
   </form>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
+  <button mat-button
+          (click)="test()">Test</button>
+
   <button mat-button
           mat-dialog-close>Cancel</button>
   <button mat-button
