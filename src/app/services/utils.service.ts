@@ -66,11 +66,11 @@ export class UtilsService {
     return buffer;
   }
 
-  async exportExcel(data: Product[], fileName: string) {
+  async exportExcel(data: Product[], validDate: string, fileName: string) {
     // Create a workbook
     const workbook = new ExcelJS.Workbook();
     // Create a sheet
-    const worksheet = workbook.addWorksheet('products');
+    const worksheet = workbook.addWorksheet('gebra-products');
     // set column width
     this.setColumnWidth(worksheet, 'A', 25.63);
     this.setColumnWidth(worksheet, 'B', 11.63);
@@ -166,7 +166,7 @@ export class UtilsService {
       this.borderCell(A6Cell);
       const E6Cell = worksheet.getCell('E6');
       worksheet.mergeCells('E6', 'F6');
-      E6Cell.value = moment().format('DD/MM/yyyy');
+      E6Cell.value = moment(validDate).format('DD/MM/yyyy');
       this.centerCell(E6Cell);
       this.fontCell(E6Cell, 12, false);
       this.borderCell(E6Cell);

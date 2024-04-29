@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -12,6 +13,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 import { Product } from '../../interfaces/product';
 import { ProductsService } from '../../services/products.service';
@@ -23,6 +26,7 @@ import { PRODUCTS } from '../../constants/excel';
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatTableModule,
@@ -33,7 +37,9 @@ import { PRODUCTS } from '../../constants/excel';
     MatButtonModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
+    MatDatepickerModule,
   ],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.scss',
 })
@@ -52,6 +58,7 @@ export class ProductsDashboardComponent {
   dataSource!: MatTableDataSource<Product>;
   selection = new SelectionModel<Product>(true, []);
   isDownloading = false;
+  validDate!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -123,9 +130,17 @@ export class ProductsDashboardComponent {
   }
 
   async exportExcelButtonOnClick() {
-    if (this.selection.selected && this.selection.selected.length > 0) {
+    if (
+      this.selection.selected &&
+      this.selection.selected.length > 0 &&
+      this.validDate
+    ) {
       this.isDownloading = true;
-      await this.utilsService.exportExcel(this.selection.selected, 'products');
+      await this.utilsService.exportExcel(
+        this.selection.selected,
+        this.validDate,
+        'products'
+      );
       this.isDownloading = false;
     }
   }

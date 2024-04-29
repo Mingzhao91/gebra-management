@@ -1,11 +1,25 @@
-.filter-bar {
-  margin-top: 30px;
+.common-bar {
   width: 80%;
-  display: flex;
-  justify-content: space-around;
-  gap: 20px;
+
   margin-left: auto;
   margin-right: auto;
+
+  .date-picker {
+    width: 250px;
+  }
+}
+
+.filter-bar {
+  margin-bottom: 10px;
+}
+
+.export-bar {
+  margin-top: 30px;
+  margin-bottom: 10px;
+
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
 }
 
 .table-container {
