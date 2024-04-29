@@ -1,28 +1,44 @@
 <div class="common-bar export-bar">
-  <mat-form-field class="date-picker">
-    <mat-label>Excel File Valid Date</mat-label>
-    <input matInput
-           [matDatepicker]="picker"
-           [(ngModel)]="validDate">
-    <mat-hint>MM/DD/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix
-                           [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <button mat-fab
-          extended
-          color="primary"
-          [disabled]="selection.isEmpty() || isDownloading || !validDate"
-          (click)="exportExcelButtonOnClick()">
-    <mat-icon *ngIf="!isDownloading">cloud_download</mat-icon>
-
-    <div class="spinner-wrapper">
-      <mat-spinner *ngIf="isDownloading"
-                   [diameter]="20"></mat-spinner>
-      <span>{{isDownloading ? 'Exporting' : 'Export Excel'}}</span>
+  <div class="buttons">
+    <div class="button-container">
+      <button mat-mini-fab
+              color="warn"
+              aria-label="Add Product">
+        <mat-icon>add</mat-icon>
+      </button>
     </div>
-  </button>
+  </div>
+
+  <div class="export">
+    <mat-form-field class="date-picker">
+      <mat-label>Excel File Valid Date</mat-label>
+      <input matInput
+             [matDatepicker]="picker"
+             [(ngModel)]="validDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix
+                             [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-fab
+            extended
+            color="primary"
+            [disabled]="selection.isEmpty() || isDownloading || !validDate"
+            (click)="exportExcelButtonOnClick()">
+      <mat-icon *ngIf="!isDownloading">cloud_download</mat-icon>
+
+      <div class="spinner-wrapper">
+        <mat-spinner *ngIf="isDownloading"
+                     [diameter]="20"></mat-spinner>
+        <span>{{isDownloading ? 'Exporting' : 'Export Excel'}}</span>
+      </div>
+    </button>
+  </div>
+
+
+
+
 </div>
 
 
