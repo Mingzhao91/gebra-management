@@ -48,6 +48,26 @@ export const PRODUCTS = [
     modelNumber: 'XN-M08-2',
   },
   {
+    modelNumber: 'XN-M08-2',
+    pictureUrl:
+      'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-M08-2.png?alt=media&token=e2365975-7ebd-4f68-9ae1-2f1ccdfcb07f',
+    category:
+      'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
+    description:
+      'Type-C input&output (PD) :5V-3A,9V-2A,12V-1.5A (Max) \\n Wireless output :15W Max. （15W/10W/7.5W/5W） \\n',
+    prices: [
+      {
+        currency: 'USD',
+        price: 5.29,
+      },
+      {
+        currency: 'CNY',
+        price: 37,
+      },
+    ],
+    capacity: '5000mAh\\n15W',
+  },
+  {
     prices: [
       {
         currency: 'USD',
@@ -106,26 +126,7 @@ export const PRODUCTS = [
       'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-W022.png?alt=media&token=427461c9-976b-4d68-95ca-d26f6a48cb01',
     category: '5000-10000mah Wireless Power Bank',
   },
-  {
-    modelNumber: 'XN-M08-2',
-    pictureUrl:
-      'https://firebasestorage.googleapis.com/v0/b/gebra-products-managemen-668af.appspot.com/o/products%2FXN-M08-2.png?alt=media&token=e2365975-7ebd-4f68-9ae1-2f1ccdfcb07f',
-    category:
-      'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
-    description:
-      'Type-C input&output (PD) :5V-3A,9V-2A,12V-1.5A (Max) \\n Wireless output :15W Max. （15W/10W/7.5W/5W） \\n',
-    prices: [
-      {
-        currency: 'USD',
-        price: 5.29,
-      },
-      {
-        currency: 'CNY',
-        price: 37,
-      },
-    ],
-    capacity: '5000mAh\\n15W',
-  },
+
   {
     modelNumber: 'XN-W022-M',
     description:
