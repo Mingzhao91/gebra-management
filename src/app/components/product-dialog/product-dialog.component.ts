@@ -6,10 +6,12 @@ import {
   MatDialogTitle,
   MatDialogContent,
   MatDialogModule,
+  MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import {
   ReactiveFormsModule,
+  FormsModule,
   FormGroup,
   FormBuilder,
   Validators,
@@ -38,6 +40,7 @@ import { take } from 'rxjs/internal/operators/take';
     MatDialogContent,
     MatButtonModule,
     MatDialogModule,
+    FormsModule,
     ReactiveFormsModule,
     MatInputModule,
     MatFormFieldModule,
@@ -61,6 +64,7 @@ export class ProductDialogComponent {
   @ViewChild('autosize') autosize!: CdkTextareaAutosize;
 
   constructor(
+    public dialogRef: MatDialogRef<ProductDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { product: Product },
     private _ngZone: NgZone,
     private fb: FormBuilder
@@ -72,7 +76,7 @@ export class ProductDialogComponent {
       modelNumber: ['', Validators.required],
       capacity: [''],
       category: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
       pictureUrl: [''],
       prices: this.fb.array([]),
     });
@@ -97,6 +101,10 @@ export class ProductDialogComponent {
     (this.productForm.get('prices') as FormArray)?.push(productPriceFg);
   }
 
+  removePriceItem(index: number) {
+    this.prices.removeAt(index);
+  }
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
@@ -117,8 +125,14 @@ export class ProductDialogComponent {
     }
   }
 
-  test() {
-    console.log(this.productForm);
+  onSubmit() {
+    this.dialogRef.close({
+      event: this.data.product ? 'update' : 'create',
+      data: {
+        formValue: this.productForm.value,
+        imageFormData: this.imageFormData,
+      },
+    });
   }
 }
 

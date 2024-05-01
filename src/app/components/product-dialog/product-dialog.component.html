@@ -1,8 +1,9 @@
 <h2 mat-dialog-title>{{data.product ? 'Edit Product' : 'Create Product'}}</h2>
 
-<mat-dialog-content>
-  <form [formGroup]="productForm"
-        class="product-form">
+<form [formGroup]="productForm"
+      class="product-form"
+      (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
     <!-- modelNumber -->
     <mat-form-field class="full-width"
                     appearance="outline">
@@ -21,8 +22,7 @@
     <mat-form-field class="full-width"
                     appearance="outline">
       <mat-label>Category</mat-label>
-      <mat-select formControlName="category"
-                  required>
+      <mat-select formControlName="category">
         <mat-option>--</mat-option>
         @for (category of categories; track category) {
         <mat-option [value]="category">{{category}}</mat-option>
@@ -66,6 +66,7 @@
         <button mat-mini-fab
                 color="warn"
                 aria-label="Add Product"
+                type="button"
                 (click)="createProductPrice()">
           <mat-icon>add</mat-icon>
         </button>
@@ -78,8 +79,7 @@
           <!-- Currency -->
           <mat-form-field appearance="outline">
             <mat-label>Currency</mat-label>
-            <mat-select formControlName="currency"
-                        required>
+            <mat-select formControlName="currency">
               <mat-option>--</mat-option>
               @for (currency of currencies; track currency) {
               <mat-option [value]="currency">{{currency}}</mat-option>
@@ -104,6 +104,14 @@
             }
           </mat-form-field>
 
+          <!-- Delete Price Item -->
+          <button mat-mini-fab
+                  color="warn"
+                  class="upload-btn"
+                  type="button"
+                  (click)="removePriceItem($index)">
+            <mat-icon>delete</mat-icon>
+          </button>
 
         </div>
         }
@@ -123,8 +131,9 @@
         {{fileName || 'No image uploaded yet.'}}
 
         <button mat-mini-fab
-                color="primary"
+                color="warn"
                 class="upload-btn"
+                type="button"
                 (click)="fileUpload.click()">
           <mat-icon>attach_file</mat-icon>
         </button>
@@ -138,20 +147,16 @@
              [alt]="fileName || 'Product Image'">
       </mat-card>
       }
-
     </div>
 
 
-  </form>
-</mat-dialog-content>
+  </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button
-          (click)="test()">Test</button>
-
-  <button mat-button
-          mat-dialog-close>Cancel</button>
-  <button mat-button
-          [mat-dialog-close]="true"
-          cdkFocusInitial>{{data.product ? 'Update' : 'Create'}}</button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close>Cancel</button>
+    <button mat-button
+            type="submit"
+            [disabled]="productForm.invalid">{{data.product ? 'Update' : 'Create'}}</button>
+  </mat-dialog-actions>
+</form>

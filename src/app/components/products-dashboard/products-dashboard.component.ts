@@ -158,10 +158,14 @@ export class ProductsDashboardComponent {
   }
 
   addProductButtonOnClick() {
-    this.dialog.open(ProductDialogComponent, {
+    const dialogRef = this.dialog.open(ProductDialogComponent, {
       data: {
         product: null,
       },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('result: ', result);
     });
   }
 }
