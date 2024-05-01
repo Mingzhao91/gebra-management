@@ -6,3 +6,15 @@
   width: 100%;
   margin-bottom: 8px;
 }
+
+.prices-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.price-item-container {
+  display: flex;
+  gap: 10px;
+}

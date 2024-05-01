@@ -2,12 +2,17 @@ export interface Product extends ProductParts {
   modelNumber: string;
 }
 
+export interface ProductPrice {
+  currency: string;
+  price: number;
+}
+
 interface ProductParts {
   capacity: string;
   category: string;
   description: string;
   pictureUrl: string;
-  prices: { currency: string; price: number }[];
+  prices: ProductPrice[];
 }
 
 export interface ProductExcel {

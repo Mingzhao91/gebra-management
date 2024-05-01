@@ -33,7 +33,6 @@
       }
     </mat-form-field>
 
-
     <!-- capacity -->
     <mat-form-field class="full-width"
                     appearance="outline">
@@ -44,6 +43,69 @@
              [errorStateMatcher]="matcher"
              placeholder="5000mAh 15W">
     </mat-form-field>
+
+    <!-- description -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Description</mat-label>
+      <textarea type="text"
+                matInput
+                formControlName="description"
+                [errorStateMatcher]="matcher"
+                placeholder="Battery Type: Li-Polymer Battery"></textarea>
+    </mat-form-field>
+
+    <!-- Prices -->
+    <div>
+      <div class="prices-container">
+        <span>Prices</span>
+        <button mat-mini-fab
+                color="warn"
+                aria-label="Add Product"
+                (click)="createProductPrice()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div formArrayName="prices">
+        @for (priceItem of prices.controls; track $index) {
+        <div [formGroupName]="$index"
+             class="price-item-container">
+          <!-- Currency -->
+          <mat-form-field appearance="outline">
+            <mat-label>Currency</mat-label>
+            <mat-select formControlName="currency"
+                        required>
+              <mat-option>--</mat-option>
+              @for (currency of currencies; track currency) {
+              <mat-option [value]="currency">{{currency}}</mat-option>
+              }
+            </mat-select>
+            @if (prices.controls[$index].get('currency')?.hasError('required')) {
+            <mat-error>Please choose a currency</mat-error>
+            }
+          </mat-form-field>
+
+          <!-- Price -->
+          <mat-form-field appearance="outline">
+            <mat-label>Price</mat-label>
+            <input type="number"
+                   matInput
+                   formControlName="price"
+                   min="0"
+                   [errorStateMatcher]="matcher"
+                   placeholder="100">
+            @if (prices.controls[$index].get('price')?.hasError('required')) {
+            <mat-error>Please enter a price</mat-error>
+            }
+          </mat-form-field>
+        </div>
+        }
+      </div>
+    </div>
+
+
+    <!-- Image -->
 
 
   </form>

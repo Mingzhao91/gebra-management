@@ -26,6 +26,8 @@ export const CATEGORIES = [
   '5000-10000mah Wireless Power Bank',
 ];
 
+export const CURRENCIES = ['USD', 'CNY'];
+
 export const PRODUCTS = [
   {
     capacity: '5000mAh\\n5W',
