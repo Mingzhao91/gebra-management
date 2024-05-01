@@ -50,6 +50,10 @@
       <mat-label>Description</mat-label>
       <textarea type="text"
                 matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="5"
+                cdkAutosizeMaxRows="15"
                 formControlName="description"
                 [errorStateMatcher]="matcher"
                 placeholder="Battery Type: Li-Polymer Battery"></textarea>
@@ -99,6 +103,8 @@
             <mat-error>Please enter a price</mat-error>
             }
           </mat-form-field>
+
+
         </div>
         }
       </div>

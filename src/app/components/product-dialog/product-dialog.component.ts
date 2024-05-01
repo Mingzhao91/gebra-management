@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, NgZone, ViewChild } from '@angular/core';
 
 import {
   MatDialog,
@@ -24,9 +24,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 
 import { Product, ProductPrice } from '../../interfaces/product';
 import { CATEGORIES, CURRENCIES } from '../../constants/excel';
+import { take } from 'rxjs/internal/operators/take';
 
 @Component({
   selector: 'app-product-dialog',
@@ -42,6 +44,7 @@ import { CATEGORIES, CURRENCIES } from '../../constants/excel';
     MatSelectModule,
     MatIconModule,
     MatCardModule,
+    TextFieldModule,
   ],
   templateUrl: './product-dialog.component.html',
   styleUrl: './product-dialog.component.scss',
@@ -55,8 +58,11 @@ export class ProductDialogComponent {
   imageUploadPreview!: string;
   imageFormData!: FormData;
 
+  @ViewChild('autosize') autosize!: CdkTextareaAutosize;
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { product: Product },
+    private _ngZone: NgZone,
     private fb: FormBuilder
   ) {}
 
@@ -70,6 +76,13 @@ export class ProductDialogComponent {
       pictureUrl: [''],
       prices: this.fb.array([]),
     });
+  }
+
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this._ngZone.onStable
+      .pipe(take(1))
+      .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   get prices() {
