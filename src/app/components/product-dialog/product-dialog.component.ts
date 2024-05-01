@@ -129,6 +129,7 @@ export class ProductDialogComponent {
     this.dialogRef.close({
       event: this.data.product ? 'update' : 'create',
       data: {
+        originalProduct: this.data.product,
         formValue: this.productForm.value,
         imageFormData: this.imageFormData,
       },
