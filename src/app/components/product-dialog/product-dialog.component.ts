@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 import { Product, ProductPrice } from '../../interfaces/product';
 import { CATEGORIES, CURRENCIES } from '../../constants/excel';
@@ -40,6 +41,7 @@ import { CATEGORIES, CURRENCIES } from '../../constants/excel';
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
+    MatCardModule,
   ],
   templateUrl: './product-dialog.component.html',
   styleUrl: './product-dialog.component.scss',
@@ -49,6 +51,9 @@ export class ProductDialogComponent {
   matcher = new MyErrorStateMatcher();
   categories = CATEGORIES;
   currencies = CURRENCIES;
+  fileName!: string;
+  imageUploadPreview!: string;
+  imageFormData!: FormData;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { product: Product },
@@ -62,7 +67,7 @@ export class ProductDialogComponent {
       capacity: [''],
       category: ['', Validators.required],
       description: ['', Validators.required],
-      pictureUrl: ['', Validators.required],
+      pictureUrl: [''],
       prices: this.fb.array([]),
     });
   }
@@ -77,6 +82,26 @@ export class ProductDialogComponent {
       price: [0, Validators.required],
     });
     (this.productForm.get('prices') as FormArray)?.push(productPriceFg);
+  }
+
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+
+    if (file) {
+      // store data for upload
+      this.fileName = file.name;
+      this.imageFormData = new FormData();
+      this.imageFormData.append(file.name, file);
+
+      // set preview
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.imageUploadPreview = e.target.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
   }
 
   test() {

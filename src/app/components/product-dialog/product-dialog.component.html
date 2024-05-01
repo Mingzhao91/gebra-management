@@ -106,6 +106,34 @@
 
 
     <!-- Image -->
+    <div>
+      <input type="file"
+             class="file-input"
+             accept="image/*"
+             (change)="onFileSelected($event)"
+             #fileUpload>
+
+      <div class="file-upload">
+        {{fileName || 'No image uploaded yet.'}}
+
+        <button mat-mini-fab
+                color="primary"
+                class="upload-btn"
+                (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+        </button>
+      </div>
+
+      @if(imageUploadPreview || productForm.get('pictureUrl')?.value) {
+
+      <mat-card class="product-image-card">
+        <img mat-card-image
+             [src]="imageUploadPreview || productForm.get('pictureUrl')?.value"
+             [alt]="fileName || 'Product Image'">
+      </mat-card>
+      }
+
+    </div>
 
 
   </form>
