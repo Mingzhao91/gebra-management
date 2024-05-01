@@ -159,6 +159,7 @@ export class ProductsDashboardComponent {
 
   addProductButtonOnClick() {
     const dialogRef = this.dialog.open(ProductDialogComponent, {
+      disableClose: true,
       data: {
         product: null,
       },
