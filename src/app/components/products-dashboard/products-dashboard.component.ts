@@ -27,6 +27,7 @@ import { ProductsService } from '../../services/products.service';
 import { UtilsService } from '../../services/utils.service';
 import { PRODUCTS } from '../../constants/excel';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -35,6 +36,7 @@ import { ProductDialogComponent } from '../product-dialog/product-dialog.compone
     // angular modules
     CommonModule,
     FormsModule,
+    HttpClientModule,
     // angular material modules
     MatFormFieldModule,
     MatInputModule,
@@ -50,7 +52,7 @@ import { ProductDialogComponent } from '../product-dialog/product-dialog.compone
     // components
     ProductDialogComponent,
   ],
-  providers: [provideNativeDateAdapter()],
+  providers: [provideNativeDateAdapter(), ProductsService],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.scss',
 })
@@ -68,7 +70,8 @@ export class ProductsDashboardComponent {
   ];
   dataSource!: MatTableDataSource<Product>;
   selection = new SelectionModel<Product>(true, []);
-  isDownloading = false;
+  isDownloadingExcelFile = false;
+  isUploadingProduct = false;
   validDate!: string;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -147,13 +150,13 @@ export class ProductsDashboardComponent {
       this.selection.selected.length > 0 &&
       this.validDate
     ) {
-      this.isDownloading = true;
+      this.isDownloadingExcelFile = true;
       await this.utilsService.exportExcel(
         this.selection.selected,
         this.validDate,
         'products'
       );
-      this.isDownloading = false;
+      this.isDownloadingExcelFile = false;
     }
   }
 
@@ -165,8 +168,34 @@ export class ProductsDashboardComponent {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       console.log('result: ', result);
+
+      console.log(result.data.imageFormData);
+
+      if (result.event === 'create') {
+        await this.createProduct(result);
+      } else if (result.event === 'update') {
+        await this.updateProduct(result);
+      }
     });
+  }
+
+  async createProduct(result: any) {
+    this.isUploadingProduct = true;
+    await this.productService.createProduct(
+      result.data.formValue,
+      result.data.fileUpload
+    );
+    await this.productService.getProducts();
+    this.isUploadingProduct = false;
+  }
+
+  async updateProduct(result: any) {
+    await this.productService.updateProduct(
+      result.data.originalProduct,
+      result.data.formValue,
+      result.data.fileUpload
+    );
   }
 }

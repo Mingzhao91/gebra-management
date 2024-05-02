@@ -12,6 +12,7 @@ interface ProductParts {
   category: string;
   description: string;
   pictureUrl: string;
+  picturePath?: string;
   prices: ProductPrice[];
 }
 

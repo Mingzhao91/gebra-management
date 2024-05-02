@@ -25,14 +25,15 @@
     <button mat-fab
             extended
             color="primary"
-            [disabled]="selection.isEmpty() || isDownloading || !validDate"
+            [disabled]="selection.isEmpty() || isDownloadingExcelFile || !validDate"
             (click)="exportExcelButtonOnClick()">
-      <mat-icon *ngIf="!isDownloading">cloud_download</mat-icon>
+      <mat-icon *ngIf="!isDownloadingExcelFile">cloud_download</mat-icon>
 
       <div class="spinner-wrapper">
-        <mat-spinner *ngIf="isDownloading"
-                     [diameter]="20"></mat-spinner>
-        <span>{{isDownloading ? 'Exporting' : 'Export Excel'}}</span>
+        <mat-spinner *ngIf="isDownloadingExcelFile"
+                     [diameter]="20"
+                     color="warn"></mat-spinner>
+        <span>{{isDownloadingExcelFile ? 'Exporting' : 'Export Excel'}}</span>
       </div>
     </button>
   </div>
@@ -54,7 +55,15 @@
 </div>
 
 
+@if(isUploadingProduct) {
+<div class="spinner-wrapper">
+  <mat-spinner [diameter]="25"
+               color="warn"></mat-spinner>
+  <span class="save-product-text">Saving Product......</span>
+</div>
+}
 
+@if(!isUploadingProduct) {
 <div class="mat-elevation-z8 table-container">
   <table mat-table
          [dataSource]="dataSource"
@@ -167,3 +176,4 @@
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
                  aria-label="Select page of users"></mat-paginator>
 </div>
+}

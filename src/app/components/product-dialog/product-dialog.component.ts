@@ -31,6 +31,7 @@ import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 import { Product, ProductPrice } from '../../interfaces/product';
 import { CATEGORIES, CURRENCIES } from '../../constants/excel';
 import { take } from 'rxjs/internal/operators/take';
+import { FileUpload } from '../../classes/file-upload';
 
 @Component({
   selector: 'app-product-dialog',
@@ -59,7 +60,8 @@ export class ProductDialogComponent {
   currencies = CURRENCIES;
   fileName!: string;
   imageUploadPreview!: string;
-  imageFormData!: FormData;
+  // imageFormData!: FormData;
+  fileUpload!: FileUpload;
 
   @ViewChild('autosize') autosize!: CdkTextareaAutosize;
 
@@ -111,8 +113,11 @@ export class ProductDialogComponent {
     if (file) {
       // store data for upload
       this.fileName = file.name;
-      this.imageFormData = new FormData();
-      this.imageFormData.append(file.name, file);
+      this.fileUpload = new FileUpload(file);
+      this.fileUpload.name = this.fileName;
+
+      // this.imageFormData = new FormData();
+      // this.imageFormData.append(file.name, file);
 
       // set preview
       const reader = new FileReader();
@@ -126,12 +131,15 @@ export class ProductDialogComponent {
   }
 
   onSubmit() {
+    console.log('this.fileUpload: ');
+    console.log(this.fileUpload);
+
     this.dialogRef.close({
       event: this.data.product ? 'update' : 'create',
       data: {
         originalProduct: this.data.product,
         formValue: this.productForm.value,
-        imageFormData: this.imageFormData,
+        fileUpload: this.fileUpload,
       },
     });
   }
