@@ -12,10 +12,12 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
+  deleteObject,
 } from '@angular/fire/storage';
 
 import { Product } from '../interfaces/product';
 import { FileUpload } from '../classes/file-upload';
+import { orderBy, setDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -27,19 +29,26 @@ export class ProductsService {
 
   async getProducts() {
     return (
-      await getDocs(query(collection(this.firestore, 'products')))
-    ).docs.map((products) => products.data() as Product);
+      await getDocs(
+        query(collection(this.firestore, 'products'), orderBy('modelNumber'))
+      )
+    ).docs.map((doc) => {
+      return {
+        id: doc.id,
+        ...doc.data(),
+      } as Product;
+    });
   }
 
   async createProduct(formValue: Product, fileUpload: FileUpload) {
-    let newProductImageResp = null;
+    let productImageResp = null;
     let newProduct = { ...formValue };
 
     if (fileUpload) {
-      newProductImageResp = await this.uploadProductImage(fileUpload);
+      productImageResp = await this.uploadProductImage(fileUpload);
 
-      newProduct.picturePath = newProductImageResp.fullPath;
-      newProduct.pictureUrl = newProductImageResp.downloadUrl;
+      newProduct.picturePath = productImageResp.fullPath;
+      newProduct.pictureUrl = productImageResp.downloadUrl;
     }
 
     await addDoc(collection(this.firestore, 'products'), newProduct);
@@ -49,7 +58,25 @@ export class ProductsService {
     originalProduct: Product,
     formValue: Product,
     fileUpload: FileUpload
-  ) {}
+  ) {
+    let productImageResp = null;
+    let productToUpdate = { ...formValue };
+
+    if (fileUpload) {
+      productImageResp = await this.uploadProductImage(fileUpload);
+
+      productToUpdate.picturePath = productImageResp.fullPath;
+      productToUpdate.pictureUrl = productImageResp.downloadUrl;
+    }
+
+    if (originalProduct.picturePath) {
+      await this.deleteProductImage(originalProduct.picturePath);
+    }
+
+    const productsRef = collection(this.firestore, 'products');
+
+    await setDoc(doc(productsRef, originalProduct.id), productToUpdate);
+  }
 
   async uploadProductImage(fileUpload: FileUpload) {
     const filePath = `${this.basePath}/${
@@ -57,14 +84,7 @@ export class ProductsService {
     }_${new Date().toISOString()}`;
     const storageRef = ref(this.storage, filePath);
     const uploadResp = await uploadBytesResumable(storageRef, fileUpload.file);
-    // console.log('uploadResp: ');
-    // console.log(uploadResp);
-    // console.log('fullPath: ');
-    // console.log(uploadResp.ref.fullPath);
-
     const downloadUrl = await getDownloadURL(uploadResp.ref);
-    // console.log('downloadUrl: ');
-    // console.log(downloadUrl);
 
     return {
       fullPath: uploadResp.ref.fullPath,
@@ -72,5 +92,8 @@ export class ProductsService {
     };
   }
 
-  async deleteProductImage() {}
+  async deleteProductImage(picturePath: string) {
+    const desertRef = ref(this.storage, picturePath);
+    await deleteObject(desertRef);
+  }
 }

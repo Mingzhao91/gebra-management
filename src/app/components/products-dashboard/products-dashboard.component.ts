@@ -52,7 +52,7 @@ import { HttpClientModule } from '@angular/common/http';
     // components
     ProductDialogComponent,
   ],
-  providers: [provideNativeDateAdapter(), ProductsService],
+  providers: [provideNativeDateAdapter()],
   templateUrl: './products-dashboard.component.html',
   styleUrl: './products-dashboard.component.scss',
 })
@@ -67,6 +67,7 @@ export class ProductsDashboardComponent {
     'capacity',
     'prices',
     'description',
+    'edit',
   ];
   dataSource!: MatTableDataSource<Product>;
   selection = new SelectionModel<Product>(true, []);
@@ -84,9 +85,12 @@ export class ProductsDashboardComponent {
   ) {}
 
   async ngOnInit() {
+    await this.setTableData();
+  }
+
+  async setTableData() {
     // Get products from server
-    // TODO: uncomment // await this.productService.getProducts();
-    this.products = PRODUCTS;
+    this.products = await this.productService.getProducts();
 
     // set products in table
     this.dataSource = new MatTableDataSource(this.products);
@@ -129,9 +133,6 @@ export class ProductsDashboardComponent {
     }
 
     this.selection.select(...this.dataSource.data);
-
-    console.log('this.selection.selected:');
-    console.log(this.selection.selected);
   }
 
   /** The label for the checkbox on the passed row */
@@ -160,19 +161,15 @@ export class ProductsDashboardComponent {
     }
   }
 
-  addProductButtonOnClick() {
+  openProductDialog(product: Product | null) {
     const dialogRef = this.dialog.open(ProductDialogComponent, {
       disableClose: true,
       data: {
-        product: null,
+        product: product,
       },
     });
 
     dialogRef.afterClosed().subscribe(async (result) => {
-      console.log('result: ', result);
-
-      console.log(result.data.imageFormData);
-
       if (result.event === 'create') {
         await this.createProduct(result);
       } else if (result.event === 'update') {
@@ -187,15 +184,18 @@ export class ProductsDashboardComponent {
       result.data.formValue,
       result.data.fileUpload
     );
-    await this.productService.getProducts();
+    await this.setTableData();
     this.isUploadingProduct = false;
   }
 
   async updateProduct(result: any) {
+    this.isUploadingProduct = true;
     await this.productService.updateProduct(
       result.data.originalProduct,
       result.data.formValue,
       result.data.fileUpload
     );
+    await this.setTableData();
+    this.isUploadingProduct = false;
   }
 }

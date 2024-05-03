@@ -1,4 +1,5 @@
 export interface Product extends ProductParts {
+  id: string;
   modelNumber: string;
 }
 

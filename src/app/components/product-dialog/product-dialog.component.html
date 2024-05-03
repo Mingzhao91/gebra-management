@@ -37,11 +37,23 @@
     <mat-form-field class="full-width"
                     appearance="outline">
       <mat-label>Capacity</mat-label>
-      <input type="text"
+      <!-- <input type="text"
              matInput
              formControlName="capacity"
              [errorStateMatcher]="matcher"
-             placeholder="5000mAh 15W">
+             placeholder="5000mAh 15W"> -->
+
+      <textarea type="text"
+                matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="4"
+                cdkAutosizeMaxRows="10"
+                formControlName="capacity"
+                [errorStateMatcher]="matcher"
+                placeholder="5000mAh 15W"></textarea>
+
+
     </mat-form-field>
 
     <!-- description -->
@@ -128,7 +140,7 @@
              #fileUpload>
 
       <div class="file-upload">
-        {{fileName || 'No image uploaded yet.'}}
+        {{fileName || 'Upload a product image'}}
 
         <button mat-mini-fab
                 color="warn"

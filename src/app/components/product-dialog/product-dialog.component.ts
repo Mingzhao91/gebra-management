@@ -73,15 +73,40 @@ export class ProductDialogComponent {
   ) {}
 
   ngOnInit() {
-    console.log(this.data);
+    // console.log('this.data.product: ');
+    // console.log(this.data.product);
+
+    // const { modelNumber, capacity, category, description, pictureUrl, prices } =
+    //   this.data.product;
+
     this.productForm = this.fb.group({
-      modelNumber: ['', Validators.required],
-      capacity: [''],
-      category: ['', Validators.required],
-      description: [''],
-      pictureUrl: [''],
+      modelNumber: [this.data.product?.modelNumber || '', Validators.required],
+      capacity: [this.data.product?.capacity || ''],
+      category: [this.data.product?.category || '', Validators.required],
+      description: [this.data.product?.description || ''],
+      pictureUrl: [this.data.product?.pictureUrl || ''],
       prices: this.fb.array([]),
     });
+
+    if (this.data.product?.prices?.length > 0) {
+      this.setPricesFormArray(this.data.product.prices);
+    }
+  }
+
+  setPricesFormArray(prices: { price: number; currency: string }[]) {
+    if (prices && prices.length > 0) {
+      prices.forEach((obj) => {
+        this.pushControlToPricesFormArr(obj.currency, obj.price);
+      });
+    }
+  }
+
+  pushControlToPricesFormArr(currency: string, price: number) {
+    const productPriceFg = this.fb.group({
+      currency: [currency, Validators.required],
+      price: [price, Validators.required],
+    });
+    (this.productForm.get('prices') as FormArray)?.push(productPriceFg);
   }
 
   triggerResize() {
@@ -96,11 +121,13 @@ export class ProductDialogComponent {
   }
 
   createProductPrice() {
-    const productPriceFg = this.fb.group({
-      currency: ['', Validators.required],
-      price: [0, Validators.required],
-    });
-    (this.productForm.get('prices') as FormArray)?.push(productPriceFg);
+    // const productPriceFg = this.fb.group({
+    //   currency: ['', Validators.required],
+    //   price: [0, Validators.required],
+    // });
+    // (this.productForm.get('prices') as FormArray)?.push(productPriceFg);
+
+    this.pushControlToPricesFormArr('', 0);
   }
 
   removePriceItem(index: number) {
@@ -131,8 +158,8 @@ export class ProductDialogComponent {
   }
 
   onSubmit() {
-    console.log('this.fileUpload: ');
-    console.log(this.fileUpload);
+    // console.log('this.fileUpload: ');
+    // console.log(this.fileUpload);
 
     this.dialogRef.close({
       event: this.data.product ? 'update' : 'create',
