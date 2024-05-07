@@ -281,8 +281,8 @@ export class UtilsService {
               productImageId,
               {
                 tl: {
-                  col: 0.999999999999999999999999,
-                  row: productStartIdx - 1 + 0.999999999999999999999999,
+                  col: 0.999,
+                  row: productStartIdx - 1 + 0.999,
                 },
                 ext: { width: 130, height: 150 },
               }
