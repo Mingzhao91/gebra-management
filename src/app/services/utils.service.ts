@@ -280,7 +280,10 @@ export class UtilsService {
             worksheet.addImage(
               productImageId,
               {
-                tl: { col: 0, row: productStartIdx - 1 },
+                tl: {
+                  col: 0.999999999999999999999999,
+                  row: productStartIdx - 1 + 0.999999999999999999999999,
+                },
                 ext: { width: 130, height: 150 },
               }
               // `A${productStartIdx}:A${productStartIdx}`
