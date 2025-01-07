@@ -22,10 +22,12 @@ export const HEADERS_MATCHER_ARR = [
 ];
 
 export const CATEGORIES = [
-  'MAGSAFE WIRELESS CHARGING MODEL  FOR IPHONE 12  13  14 15 SERIES',
-  '5000-10000mah Wireless Power Bank',
-  '5000mah-20000mah Power Bank',
-  'Wireless Charging Pad',
+  'Power Bank',
+  'Charging Dock',
+  'Speaker',
+  'Mini Lamp',
+  'Mini Fan',
+  'Tracker',
 ];
 
 export const CURRENCIES = ['USD', 'CNY'];
