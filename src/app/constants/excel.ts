@@ -22,11 +22,11 @@ export const HEADERS_MATCHER_ARR = [
 ];
 
 export const CATEGORIES = [
-  'Power Bank',
   'Charging Dock',
-  'Speaker',
-  'Mini Lamp',
   'Mini Fan',
+  'Mini Lamp',
+  'Power Bank',
+  'Speaker',
   'Tracker',
 ];
 
