@@ -28,7 +28,6 @@ export const CATEGORIES = [
   'Mini Lamp',
   'Mini Fan',
   'Tracker',
-  'tmpt',
 ];
 
 export const CURRENCIES = ['USD', 'CNY'];
