@@ -150,7 +150,7 @@ export class UtilsService {
               name: 'Times New Roman',
               bold: false,
             },
-            text: 'E-mail:  sales2@cnexmight.com ;  Web: https://cnexmight.en.alibaba.com',
+            text: 'E-mail:  admin@cnexmight.com ;  Web: https://cnexmight.en.alibaba.com',
           },
         ],
       };
