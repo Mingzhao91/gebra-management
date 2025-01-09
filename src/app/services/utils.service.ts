@@ -134,7 +134,7 @@ export class UtilsService {
               name: 'Times New Roman',
               bold: false,
             },
-            text: "Add.:A1317, Tang shang, Bao'an District, Shenzhen, Guangdong, China\r\n",
+            text: "Add.:Bai Nian Chu Ju Industry Area, Bao'an District, Shenzhen, Guangdong, China\r\n",
           },
           {
             font: {
@@ -199,6 +199,7 @@ export class UtilsService {
         worksheet.addRow([category]);
         const rowIdx = worksheet.rowCount;
         const row = worksheet.getRow(rowIdx);
+        // working
         row.height = 52;
         worksheet.mergeCells(`A${rowIdx}:F${rowIdx}`);
         const cell = worksheet.getCell(`A${rowIdx}`);
@@ -269,8 +270,8 @@ export class UtilsService {
 
           // Style cells
           // Picture Url
-          // console.log('productStartIdx: ', productStartIdx);
-          // console.log('productEndIdx: ', productEndIdx);
+          console.log('productStartIdx: ', productStartIdx);
+          console.log('productEndIdx: ', productEndIdx);
 
           if (items.length > 1) {
             worksheet.mergeCells(`A${productStartIdx}:A${productEndIdx}`);
@@ -279,26 +280,37 @@ export class UtilsService {
           if (items.length === 1) {
             worksheet.addImage(
               productImageId,
+              // working
               {
-                tl: {
-                  col: 0.999,
-                  row: productStartIdx - 1 + 0.999,
-                },
-                ext: { width: 130, height: 150 },
-              }
-              // `A${productStartIdx}:A${productStartIdx}`
+                tl: { col: 0, row: productStartIdx - 1 },
+                br: { col: 1, row: productStartIdx - 0.00001 },
+              } as any
+              // {
+              //   tl: {
+              //     col: 0.999,
+              //     row: productStartIdx - 1 + 0.999,
+              //   },
+              //   ext: { width: 130, height: 150 },
+              // }
+              // `A${productStartIdx}:A${productEndIdx - 1}`
             );
           } else if (items.length > 1) {
             worksheet.addImage(
               productImageId,
+              // working
               {
-                tl: {
-                  col: 0.999,
-                  row: productStartIdx - 1 + 0.999,
-                },
-                ext: { width: 130, height: 150 },
-              }
-              // `A${productStartIdx}:A${productStartIdx}`
+                tl: { col: 0, row: productStartIdx - 1 },
+                br: { col: 1, row: productStartIdx - 0.00001 },
+              } as any
+
+              // {
+              //   tl: {
+              //     col: 0.999,
+              //     row: productStartIdx - 1 + 0.999,
+              //   },
+              //   ext: { width: 130, height: 150 },
+              // }
+              // `A${productStartIdx}:A${productEndIdx - 1}`
             );
           }
 
@@ -306,7 +318,7 @@ export class UtilsService {
 
           // console.log('pictureCell.$col$row: ', pictureCell.$col$row);
 
-          this.centerCell(pictureCell);
+          // this.centerCell(pictureCell);
           this.borderCell(pictureCell);
 
           // Model Url
