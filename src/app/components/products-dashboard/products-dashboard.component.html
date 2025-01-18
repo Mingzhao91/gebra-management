@@ -43,15 +43,44 @@
 
 </div>
 
+<div class="filter-all">
+  <div class="filter-by-typing">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Filter</mat-label>
+      <input matInput
+             (keyup)="applyFilter($event)"
+             placeholder="Ex. XN-W022-M"
+             #input>
+    </mat-form-field>
+  </div>
 
-<div class="common-bar filter-bar">
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput
-           (keyup)="applyFilter($event)"
-           placeholder="Ex. XN-W022-M"
-           #input>
-  </mat-form-field>
+  <div class="filter-by-category">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Categories</mat-label>
+      <mat-select [formControl]="selectedCategories"
+                  multiple
+                  canSelectNullableOptions
+                  (selectionChange)="onCategoriesChange($event)">
+        <mat-select-trigger>
+          {{selectedCategories.value?.[0] || ''}}
+          @if ((selectedCategories.value?.length || 0) > 1) {
+          <span class="example-additional-selection">
+            (+{{(selectedCategories.value?.length || 0) - 1}} {{selectedCategories.value?.length === 2 ? 'other' :
+            'others'}})
+          </span>
+          }
+        </mat-select-trigger>
+        @for (category of categories; track category) {
+        <mat-option [value]="category">{{category}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <button class='reset-filter-button'
+          mat-flat-button
+          color="warn"
+          (click)="resetFilters()">Reset</button>
 </div>
 
 

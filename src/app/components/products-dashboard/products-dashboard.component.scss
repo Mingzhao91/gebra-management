@@ -1,12 +1,9 @@
+// ------------    export    --------------
 .common-bar {
   width: 80%;
 
   margin-left: auto;
   margin-right: auto;
-}
-
-.filter-bar {
-  margin-bottom: 10px;
 }
 
 .export-bar {
@@ -32,6 +29,30 @@
     width: 250px;
   }
 }
+
+// ------------    filters    --------------
+.filter-all {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 6px;
+  column-gap: 10px;
+}
+.filter-by-typing {
+  width: 65%;
+}
+
+.filter-by-category {
+  width: 20%;
+}
+
+// ------------ table ------------------//
 
 .table-container {
   width: 80%;
