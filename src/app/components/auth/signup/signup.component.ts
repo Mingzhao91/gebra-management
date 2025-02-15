@@ -6,6 +6,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+import { AuthService } from '../../../services/auth.service';
+
 @Component({
   selector: 'app-signup',
   standalone: true,
@@ -20,7 +22,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
   styleUrl: './signup.component.scss',
 })
 export class SignupComponent {
+  constructor(private authService: AuthService) {}
+
   onSubmit(form: NgForm) {
-    console.log(form);
+    this.authService.registerUser({
+      email: form.value.email,
+      password: form.value.password,
+    });
   }
 }
