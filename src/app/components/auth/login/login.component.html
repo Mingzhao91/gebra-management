@@ -1,0 +1,36 @@
+<section>
+  <form class="signup-form"
+        #f="ngForm"
+        (ngSubmit)="onSubmit(f)">
+    <mat-form-field>
+      <input type="email"
+             matInput
+             placeholder="Your email"
+             ngModel
+             name="email"
+             email
+             required
+             #emailInput="ngModel">
+      @if(emailInput.hasError('required')) {
+      <mat-error>Field must not be empty.</mat-error>
+      }
+      @if(!emailInput.hasError('required')) {
+      <mat-error>E-Mail is invalid.</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <input type="password"
+             matInput
+             placeholder="Your password"
+             ngModel
+             name="password"
+             required
+             #pwInput="ngModel">
+    </mat-form-field>
+
+    <button type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="f.invalid">Login</button>
+  </form>
+</section>
