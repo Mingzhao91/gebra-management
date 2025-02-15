@@ -2,12 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterModule } from '@angular/router';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { HeaderComponent } from './components/navigation/header/header.component';
+import { SidenavListComponent } from './components/navigation/sidenav-list/sidenav-list.component';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +15,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     CommonModule,
     RouterOutlet,
     RouterModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule,
     MatTooltipModule,
     MatButtonModule,
     MatSidenavModule,
+    HeaderComponent,
+    SidenavListComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

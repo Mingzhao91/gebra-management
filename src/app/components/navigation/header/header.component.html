@@ -1,0 +1,22 @@
+<mat-toolbar>
+  <div class="menu-button-container">
+    <button mat-icon-button
+            (click)="onToggleSidenav()">
+      <mat-icon>
+        menu
+      </mat-icon>
+    </button>
+  </div>
+  <img src="../assets/gebra-logo.png"
+       class="logo"
+       routerLink="/">
+  <span>Exmight</span>
+  <div class="links">
+    <ul class="navigation-items">
+      <li><a routerLink="/signup">Signup</a></li>
+      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/products">Products</a></li>
+      <li><a routerLink="/logout">Logout</a></li>
+    </ul>
+  </div>
+</mat-toolbar>
