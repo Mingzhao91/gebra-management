@@ -22,5 +22,19 @@ export const routes: Routes = [
         './components/products-dashboard/products-dashboard.component'
       ).then((x) => x.ProductsDashboardComponent),
   },
+  {
+    path: 'customers',
+    loadComponent: () =>
+      import('./components/customers/customers.component').then(
+        (x) => x.CustomersComponent
+      ),
+  },
+  {
+    path: 'orders',
+    loadComponent: () =>
+      import('./components/orders/orders.component').then(
+        (x) => x.OrdersComponent
+      ),
+  },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];

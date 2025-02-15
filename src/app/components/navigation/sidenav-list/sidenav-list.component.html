@@ -14,12 +14,24 @@
   <a mat-list-item
      routerLink="/products"
      (click)="onClose()">
-    <mat-icon>shopping-cart</mat-icon>
+    <mat-icon>phone_iphone</mat-icon>
     <span class="nav-caption">Products</span>
   </a>
   <a mat-list-item
+     routerLink="/customers"
      (click)="onClose()">
-    <mat-icon>eject</mat-icon>
+    <mat-icon>people</mat-icon>
+    <span class="nav-caption">Customers</span>
+  </a>
+  <a mat-list-item
+     routerLink="/orders"
+     (click)="onClose()">
+    <mat-icon>add_shopping_cart</mat-icon>
+    <span class="nav-caption">Orders</span>
+  </a>
+  <a mat-list-item
+     (click)="onClose()">
+    <mat-icon>logout</mat-icon>
     <span class="nav-caption">Logout</span>
   </a>
 </mat-nav-list>
