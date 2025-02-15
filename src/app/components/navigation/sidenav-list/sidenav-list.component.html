@@ -1,4 +1,5 @@
 <mat-nav-list>
+  @if(!isAuth) {
   <a mat-list-item
      routerLink="/signup"
      (click)="onClose()">
@@ -11,12 +12,16 @@
     <mat-icon>input</mat-icon>
     <span class="nav-caption">Login</span>
   </a>
+  }
+
   <a mat-list-item
      routerLink="/products"
      (click)="onClose()">
     <mat-icon>phone_iphone</mat-icon>
     <span class="nav-caption">Products</span>
   </a>
+
+  @if(isAuth) {
   <a mat-list-item
      routerLink="/customers"
      (click)="onClose()">
@@ -34,4 +39,5 @@
     <mat-icon>logout</mat-icon>
     <span class="nav-caption">Logout</span>
   </a>
+  }
 </mat-nav-list>
