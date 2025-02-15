@@ -13,10 +13,22 @@ mat-sidenav {
   width: 250px;
 }
 
+@media screen and (min-width: 600px) {
+  .menu-button-container {
+    display: none;
+  }
+}
+
 .links {
   display: flex;
   width: 100%;
   justify-content: flex-end;
+}
+
+@media screen and (max-width: 599px) {
+  .links {
+    display: none;
+  }
 }
 
 .navigation-items {
