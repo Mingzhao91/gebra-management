@@ -35,6 +35,10 @@ export class HeaderComponent {
     this.sidenavToggle.emit();
   }
 
+  onLogout() {
+    this.authService.logout();
+  }
+
   ngOnDestroy() {
     this.authSubscription.unsubscribe();
   }

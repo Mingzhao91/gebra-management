@@ -23,7 +23,8 @@
       @if(isAuth) {
       <li><a routerLink="/customers">Customers</a></li>
       <li><a routerLink="/orders">Orders</a></li>
-      <li><a routerLink="/logout">Logout</a></li>
+      <li><a style="cursor: pointer"
+           (click)="onLogout()">Logout</a></li>
       }
     </ul>
   </div>
