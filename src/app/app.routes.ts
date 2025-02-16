@@ -1,21 +1,17 @@
 import { Routes } from '@angular/router';
 
 import { authGuard } from './guards/auth.guard';
+import { SignupComponent } from './components/auth/signup/signup.component';
+import { LoginComponent } from './components/auth/login/login.component';
 
 export const routes: Routes = [
   {
     path: 'signup',
-    loadComponent: () =>
-      import('./components/auth/signup/signup.component').then(
-        (x) => x.SignupComponent
-      ),
+    component: SignupComponent,
   },
   {
     path: 'login',
-    loadComponent: () =>
-      import('./components/auth/login/login.component').then(
-        (x) => x.LoginComponent
-      ),
+    component: LoginComponent,
   },
   {
     path: 'products',
