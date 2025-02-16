@@ -6,6 +6,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { provideAuth, getAuth } from '@angular/fire/auth';
 import { CurrencyPipe } from '@angular/common';
 
 export const appConfig: ApplicationConfig = {
@@ -28,5 +29,6 @@ export const appConfig: ApplicationConfig = {
     ),
     importProvidersFrom(provideFirestore(() => getFirestore())),
     importProvidersFrom(provideStorage(() => getStorage())),
+    importProvidersFrom(provideAuth(() => getAuth())),
   ],
 };

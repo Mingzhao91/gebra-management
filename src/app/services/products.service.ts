@@ -17,7 +17,7 @@ import {
 } from '@angular/fire/storage';
 // import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 import { Product } from '../interfaces/product';
 import { FileUpload } from '../classes/file-upload';
@@ -28,6 +28,7 @@ import { orderBy, setDoc } from 'firebase/firestore';
 })
 export class ProductsService {
   private basePath = `/products`;
+  private fbSubs: Subscription[] = [];
 
   products$ = new Subject<Product[]>();
 
@@ -42,9 +43,11 @@ export class ProductsService {
       { idField: 'id' }
     ) as Observable<Product[]>;
 
-    productObs.subscribe((products) => {
-      this.products$.next([...products]);
-    });
+    this.fbSubs.push(
+      productObs.subscribe((products) => {
+        this.products$.next([...products]);
+      })
+    );
   }
 
   // deprecated as we're using subscription now
@@ -119,5 +122,9 @@ export class ProductsService {
   async deleteProductImage(picturePath: string) {
     const desertRef = ref(this.storage, picturePath);
     await deleteObject(desertRef);
+  }
+
+  cancelSubscriptions() {
+    this.fbSubs.forEach((sub) => sub.unsubscribe());
   }
 }

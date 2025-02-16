@@ -1,54 +1,72 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  Auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  authState,
+} from '@angular/fire/auth';
 
 import { Subject } from 'rxjs';
 
-import { User } from '../interfaces/user.model';
 import { AuthData } from '../interfaces/auth-data.model';
+import { ProductsService } from './products.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   authChange = new Subject<boolean>();
-  private user!: User;
+  private isAuthenticated = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private auth: Auth,
+    private productsService: ProductsService
+  ) {}
+
+  initAuthListener() {
+    authState(this.auth).subscribe((user) => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.authChange.next(true);
+        // TODO: navigate to customers or products depending on role
+        this.router.navigate(['/products']);
+      } else {
+        this.productsService.cancelSubscriptions();
+        this.authChange.next(false);
+        this.router.navigate(['/login']);
+        this.isAuthenticated = false;
+      }
+    });
+  }
 
   registerUser(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString(),
-    };
-    this.authChange.next(true);
-    this.authSuccessfully();
+    createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString(),
-    };
-    this.authChange.next(true);
-    this.authSuccessfully();
+    signInWithEmailAndPassword(this.auth, authData.email, authData.password)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   logout() {
-    this.user = null!;
-    this.authChange.next(false);
-    this.router.navigate(['/login']);
-  }
-
-  getUser() {
-    return { ...this.user };
+    signOut(this.auth);
   }
 
   isAuth() {
-    return this.user != null;
-  }
-
-  authSuccessfully() {
-    // TODO: navigate to customers or products depending on role
-    this.router.navigate(['/products']);
+    return this.isAuthenticated;
   }
 }
