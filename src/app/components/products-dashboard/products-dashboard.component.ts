@@ -29,6 +29,7 @@ import { UtilsService } from '../../services/utils.service';
 import { CATEGORIES, PRODUCTS } from '../../constants/excel';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -61,6 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
 })
 export class ProductsDashboardComponent {
   products: Product[] = [];
+  productsSub!: Subscription;
   // table variables
   displayedColumns: string[] = [
     'select',
@@ -95,20 +97,35 @@ export class ProductsDashboardComponent {
     await this.setTableData();
 
     // override default filter behaviour of Material Datatable
-    this.dataSource.filterPredicate = this.createFilter();
+    // this.dataSource.filterPredicate = this.createFilter();
   }
 
   async setTableData() {
+    this.productsSub = this.productService.products$.subscribe((products) => {
+      console.log('from firebase.....');
+      console.log(products);
+      this.products = products;
+
+      this.dataSource = new MatTableDataSource(this.products);
+
+      if (this.dataSource) {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
+
+      this.dataSource.filterPredicate = this.createFilter();
+    });
+
     // Get products from server
-    this.products = await this.productService.getProducts(); // PRODUCTS as any;
+    // this.products = await this.productService.getProducts(); // PRODUCTS as any;
 
     // set products in table
-    this.dataSource = new MatTableDataSource(this.products);
+    // this.dataSource = new MatTableDataSource(this.products);
 
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
+    // if (this.dataSource) {
+    //   this.dataSource.paginator = this.paginator;
+    //   this.dataSource.sort = this.sort;
+    // }
   }
 
   ngAfterViewInit() {
@@ -185,7 +202,7 @@ export class ProductsDashboardComponent {
       result.data.formValue,
       result.data.fileUpload
     );
-    await this.setTableData();
+    // await this.setTableData();
     this.isUploadingProduct = false;
   }
 
@@ -196,7 +213,7 @@ export class ProductsDashboardComponent {
       result.data.formValue,
       result.data.fileUpload
     );
-    await this.setTableData();
+    // await this.setTableData();
     this.isUploadingProduct = false;
   }
 
@@ -340,5 +357,9 @@ export class ProductsDashboardComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  ngOnDestroy() {
+    this.productsSub.unsubscribe();
   }
 }

@@ -6,6 +6,7 @@ import {
   collection,
   getDocs,
   query,
+  collectionData,
 } from '@angular/fire/firestore';
 import {
   Storage,
@@ -14,6 +15,9 @@ import {
   getDownloadURL,
   deleteObject,
 } from '@angular/fire/storage';
+// import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+import { Observable } from 'rxjs';
 
 import { Product } from '../interfaces/product';
 import { FileUpload } from '../classes/file-upload';
@@ -24,9 +28,19 @@ import { orderBy, setDoc } from 'firebase/firestore';
 })
 export class ProductsService {
   private basePath = `/products`;
+  products$!: Observable<Product[]>;
 
-  constructor(private firestore: Firestore, private storage: Storage) {}
+  constructor(
+    private firestore: Firestore,
+    private storage: Storage // private readonly afs: AngularFirestore
+  ) {
+    this.products$ = collectionData(
+      query(collection(this.firestore, 'products'), orderBy('modelNumber')),
+      { idField: 'id' }
+    ) as Observable<Product[]>;
+  }
 
+  // deprecated as we're using subscription now
   async getProducts() {
     return (
       await getDocs(
@@ -62,15 +76,18 @@ export class ProductsService {
     let productImageResp = null;
     let productToUpdate = { ...formValue };
 
+    // console.log('original product: ', originalProduct);
+    // console.log('fileUpload: ', fileUpload);
+
     if (fileUpload) {
       productImageResp = await this.uploadProductImage(fileUpload);
 
       productToUpdate.picturePath = productImageResp.fullPath;
       productToUpdate.pictureUrl = productImageResp.downloadUrl;
-    }
 
-    if (originalProduct.picturePath) {
-      await this.deleteProductImage(originalProduct.picturePath);
+      if (originalProduct.picturePath) {
+        await this.deleteProductImage(originalProduct.picturePath);
+      }
     }
 
     const productsRef = collection(this.firestore, 'products');
