@@ -1,7 +1,14 @@
 import { Component, Inject, NgZone, ViewChild } from '@angular/core';
+import {
+  ReactiveFormsModule,
+  FormsModule,
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormArray,
+} from '@angular/forms';
 
 import {
-  MatDialog,
   MAT_DIALOG_DATA,
   MatDialogTitle,
   MatDialogContent,
@@ -9,18 +16,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  ReactiveFormsModule,
-  FormsModule,
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  FormArray,
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -32,6 +27,7 @@ import { Product, ProductPrice } from '../../interfaces/product.model';
 import { CATEGORIES, CURRENCIES } from '../../constants/excel';
 import { take } from 'rxjs/internal/operators/take';
 import { FileUpload } from '../../classes/file-upload';
+import { MyErrorStateMatcher } from '../../services/utils.service';
 
 @Component({
   selector: 'app-product-dialog',
@@ -169,19 +165,5 @@ export class ProductDialogComponent {
         fileUpload: this.fileUpload,
       },
     });
-  }
-}
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
   }
 }
