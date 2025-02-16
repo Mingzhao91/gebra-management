@@ -58,10 +58,10 @@ import { UIService } from '../../services/ui.service';
     ProductDialogComponent,
   ],
   providers: [provideNativeDateAdapter()],
-  templateUrl: './products-dashboard.component.html',
-  styleUrl: './products-dashboard.component.scss',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss',
 })
-export class ProductsDashboardComponent {
+export class ProductsComponent {
   products: Product[] | null = [];
   isLoading = true;
   private productsSub!: Subscription;

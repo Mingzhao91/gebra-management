@@ -16,9 +16,9 @@ export const routes: Routes = [
   {
     path: 'products',
     loadComponent: () =>
-      import(
-        './components/products-dashboard/products-dashboard.component'
-      ).then((x) => x.ProductsDashboardComponent),
+      import('./components/products/products.component').then(
+        (x) => x.ProductsComponent
+      ),
   },
   {
     path: 'customers',
