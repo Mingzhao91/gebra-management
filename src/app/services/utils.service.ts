@@ -7,7 +7,11 @@ import { saveAs } from 'file-saver';
 // import { get } from 'https';
 // import fetc} from 'node-fetch';
 
-import { Product, ProductExcel, ProductsExcel } from '../interfaces/product';
+import {
+  Product,
+  ProductExcel,
+  ProductsExcel,
+} from '../interfaces/product.model';
 import { HEADERS_MATCHER_ARR } from '../constants/excel';
 
 @Injectable({

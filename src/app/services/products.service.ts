@@ -19,7 +19,7 @@ import {
 
 import { Observable, Subject, Subscription } from 'rxjs';
 
-import { Product } from '../interfaces/product';
+import { Product } from '../interfaces/product.model';
 import { FileUpload } from '../classes/file-upload';
 import { orderBy, setDoc } from 'firebase/firestore';
 import { UIService } from './ui.service';

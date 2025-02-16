@@ -23,7 +23,7 @@ import {
   MatDialogContent,
 } from '@angular/material/dialog';
 
-import { Product, ProductPrice } from '../../interfaces/product';
+import { Product, ProductPrice } from '../../interfaces/product.model';
 import { ProductsService } from '../../services/products.service';
 import { UtilsService } from '../../services/utils.service';
 import { CATEGORIES, PRODUCTS } from '../../constants/excel';

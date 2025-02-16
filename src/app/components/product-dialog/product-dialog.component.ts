@@ -28,7 +28,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CdkTextareaAutosize, TextFieldModule } from '@angular/cdk/text-field';
 
-import { Product, ProductPrice } from '../../interfaces/product';
+import { Product, ProductPrice } from '../../interfaces/product.model';
 import { CATEGORIES, CURRENCIES } from '../../constants/excel';
 import { take } from 'rxjs/internal/operators/take';
 import { FileUpload } from '../../classes/file-upload';
