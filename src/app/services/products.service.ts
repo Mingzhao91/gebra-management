@@ -22,6 +22,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { Product } from '../interfaces/product';
 import { FileUpload } from '../classes/file-upload';
 import { orderBy, setDoc } from 'firebase/firestore';
+import { UIService } from './ui.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,10 +35,12 @@ export class ProductsService {
 
   constructor(
     private firestore: Firestore,
-    private storage: Storage // private readonly afs: AngularFirestore
+    private storage: Storage, // private readonly afs: AngularFirestore
+    private uiService: UIService
   ) {}
 
   fetchProducts() {
+    this.uiService.loadingStateChanged.next(true);
     const productObs = collectionData(
       query(collection(this.firestore, 'products'), orderBy('modelNumber')),
       { idField: 'id' }
@@ -45,6 +48,7 @@ export class ProductsService {
 
     this.fbSubs.push(
       productObs.subscribe((products) => {
+        this.uiService.loadingStateChanged.next(false);
         this.products$.next([...products]);
       })
     );

@@ -84,15 +84,21 @@
 </div>
 
 
-@if(isUploadingProduct) {
+@if(isUploadingProduct || isLoading) {
 <div class="spinner-wrapper">
   <mat-spinner [diameter]="25"
                color="warn"></mat-spinner>
+  @if(isUploadingProduct) {
   <span class="save-product-text">Saving Product......</span>
+  }
+
+  @if(isLoading) {
+  <span class="save-product-text">Loading Products......</span>
+  }
 </div>
 }
 
-@if(!isUploadingProduct) {
+@if(!isUploadingProduct && !isLoading ) {
 <div class="mat-elevation-z8 table-container">
   <table mat-table
          [dataSource]="dataSource"

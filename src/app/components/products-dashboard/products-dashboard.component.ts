@@ -30,6 +30,7 @@ import { CATEGORIES, PRODUCTS } from '../../constants/excel';
 import { ProductDialogComponent } from '../product-dialog/product-dialog.component';
 import { HttpClientModule } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { UIService } from '../../services/ui.service';
 
 @Component({
   selector: 'app-products-dashboard',
@@ -62,7 +63,9 @@ import { Subscription } from 'rxjs';
 })
 export class ProductsDashboardComponent {
   products: Product[] = [];
-  productsSub!: Subscription;
+  isLoading = true;
+  private productsSub!: Subscription;
+  private loadingSub!: Subscription;
   // table variables
   displayedColumns: string[] = [
     'select',
@@ -90,10 +93,17 @@ export class ProductsDashboardComponent {
   constructor(
     public dialog: MatDialog,
     private productService: ProductsService,
-    public utilsService: UtilsService
+    public utilsService: UtilsService,
+    private uiService: UIService
   ) {}
 
   async ngOnInit() {
+    this.loadingSub = this.uiService.loadingStateChanged.subscribe(
+      (isLoading) => {
+        this.isLoading = isLoading;
+      }
+    );
+
     await this.setTableData();
 
     // override default filter behaviour of Material Datatable
@@ -363,5 +373,6 @@ export class ProductsDashboardComponent {
 
   ngOnDestroy() {
     this.productsSub.unsubscribe();
+    this.loadingSub.unsubscribe();
   }
 }
