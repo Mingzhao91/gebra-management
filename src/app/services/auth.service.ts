@@ -69,4 +69,7 @@ export class AuthService {
   isAuth() {
     return this.isAuthenticated;
   }
+
+  // todo: create a firestore user when sign up, set up roles in there https://www.youtube.com/watch?v=qWy9ylc3f9U
+  // D - todo: setup privacy rule on each table, products: readonly if not login, else read & write if logged in
 }
