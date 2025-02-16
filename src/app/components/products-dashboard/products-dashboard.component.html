@@ -98,8 +98,10 @@
 </div>
 }
 
-@if(!isUploadingProduct && !isLoading ) {
+@if(!isUploadingProduct ) {
 <div class="mat-elevation-z8 table-container">
+  @if(!isLoading && products) {
+
   <table mat-table
          [dataSource]="dataSource"
          matSort>
@@ -216,8 +218,14 @@
           colspan="4">No data matching the filter "{{input.value}}"</td>
     </tr>
   </table>
-
+  }
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"
                  aria-label="Select page of users"></mat-paginator>
 </div>
+}
+
+@if(!isUploadingProduct && !isLoading && !products) {
+<button mat-button
+        type="button"
+        (click)="fetchProducts()">Fetch Again</button>
 }

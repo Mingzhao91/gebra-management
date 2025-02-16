@@ -31,7 +31,7 @@ export class ProductsService {
   private basePath = `/products`;
   private fbSubs: Subscription[] = [];
 
-  products$ = new Subject<Product[]>();
+  products$ = new Subject<Product[] | null>();
 
   constructor(
     private firestore: Firestore,
@@ -47,9 +47,19 @@ export class ProductsService {
     ) as Observable<Product[]>;
 
     this.fbSubs.push(
-      productObs.subscribe((products) => {
-        this.uiService.loadingStateChanged.next(false);
-        this.products$.next([...products]);
+      productObs.subscribe({
+        next: (products) => {
+          this.uiService.loadingStateChanged.next(false);
+          this.products$.next([...products]);
+        },
+        error: (error) => {
+          console.log('error.....');
+          this.uiService.loadingStateChanged.next(false);
+          this.uiService.showSnackboar(
+            'Fetching exercises failed, please try again later'
+          );
+          this.products$.next(null);
+        },
       })
     );
   }

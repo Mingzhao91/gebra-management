@@ -62,7 +62,7 @@ import { UIService } from '../../services/ui.service';
   styleUrl: './products-dashboard.component.scss',
 })
 export class ProductsDashboardComponent {
-  products: Product[] = [];
+  products: Product[] | null = [];
   isLoading = true;
   private productsSub!: Subscription;
   private loadingSub!: Subscription;
@@ -97,55 +97,45 @@ export class ProductsDashboardComponent {
     private uiService: UIService
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     this.loadingSub = this.uiService.loadingStateChanged.subscribe(
       (isLoading) => {
         this.isLoading = isLoading;
       }
     );
 
-    await this.setTableData();
-
-    // override default filter behaviour of Material Datatable
-    // this.dataSource.filterPredicate = this.createFilter();
-  }
-
-  async setTableData() {
-    this.productService.fetchProducts();
-
     this.productsSub = this.productService.products$.subscribe((products) => {
       // console.log('from firebase.....');
       // console.log(products);
       this.products = products;
 
-      this.dataSource = new MatTableDataSource(this.products);
+      if (products) {
+        this.products = products;
 
-      if (this.dataSource) {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource = new MatTableDataSource(this.products);
+
+        if (this.dataSource) {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+
+        this.dataSource.filterPredicate = this.createFilter();
       }
-
-      this.dataSource.filterPredicate = this.createFilter();
     });
 
-    // Get products from server
-    // this.products = await this.productService.getProducts(); // PRODUCTS as any;
-
-    // set products in table
-    // this.dataSource = new MatTableDataSource(this.products);
-
-    // if (this.dataSource) {
-    //   this.dataSource.paginator = this.paginator;
-    //   this.dataSource.sort = this.sort;
-    // }
+    this.fetchProducts();
   }
 
-  ngAfterViewInit() {
-    if (this.dataSource) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
+  fetchProducts() {
+    this.productService.fetchProducts();
   }
+
+  // ngAfterViewInit() {
+  //   if (this.dataSource) {
+  //     this.dataSource.paginator = this.paginator;
+  //     this.dataSource.sort = this.sort;
+  //   }
+  // }
 
   // selection
   /** Whether the number of selected elements matches the total number of rows. */
@@ -261,14 +251,6 @@ export class ProductsDashboardComponent {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-
-    // this.dataSource.filter = JSON.stringify()
-
-    // this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    // if (this.dataSource.paginator) {
-    //   this.dataSource.paginator.firstPage();
-    // }
   }
 
   createFilter() {
