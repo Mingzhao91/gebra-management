@@ -38,6 +38,8 @@ export class SidenavListComponent {
   }
 
   ngOnDestro() {
-    this.authSubscription.unsubscribe();
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }

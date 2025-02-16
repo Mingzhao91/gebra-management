@@ -48,6 +48,8 @@ export class SignupComponent {
   }
 
   ngOnDestroy() {
-    this.loadingSub.unsubscribe();
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
+    }
   }
 }

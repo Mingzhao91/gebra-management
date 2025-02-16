@@ -354,7 +354,12 @@ export class ProductsDashboardComponent {
   }
 
   ngOnDestroy() {
-    this.productsSub.unsubscribe();
-    this.loadingSub.unsubscribe();
+    if (this.productsSub) {
+      this.productsSub.unsubscribe();
+    }
+
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
+    }
   }
 }
