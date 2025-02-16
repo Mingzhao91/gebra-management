@@ -17,7 +17,7 @@ import {
 } from '@angular/fire/storage';
 // import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 import { Product } from '../interfaces/product';
 import { FileUpload } from '../classes/file-upload';
@@ -28,16 +28,23 @@ import { orderBy, setDoc } from 'firebase/firestore';
 })
 export class ProductsService {
   private basePath = `/products`;
-  products$!: Observable<Product[]>;
+
+  products$ = new Subject<Product[]>();
 
   constructor(
     private firestore: Firestore,
     private storage: Storage // private readonly afs: AngularFirestore
-  ) {
-    this.products$ = collectionData(
+  ) {}
+
+  fetchProducts() {
+    const productObs = collectionData(
       query(collection(this.firestore, 'products'), orderBy('modelNumber')),
       { idField: 'id' }
     ) as Observable<Product[]>;
+
+    productObs.subscribe((products) => {
+      this.products$.next([...products]);
+    });
   }
 
   // deprecated as we're using subscription now

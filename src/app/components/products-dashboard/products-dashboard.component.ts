@@ -101,9 +101,11 @@ export class ProductsDashboardComponent {
   }
 
   async setTableData() {
+    this.productService.fetchProducts();
+
     this.productsSub = this.productService.products$.subscribe((products) => {
-      console.log('from firebase.....');
-      console.log(products);
+      // console.log('from firebase.....');
+      // console.log(products);
       this.products = products;
 
       this.dataSource = new MatTableDataSource(this.products);
