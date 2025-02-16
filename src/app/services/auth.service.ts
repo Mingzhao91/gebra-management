@@ -13,6 +13,7 @@ import { Subject } from 'rxjs';
 
 import { AuthData } from '../interfaces/auth-data.model';
 import { ProductsService } from './products.service';
+import { UIService } from './ui.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,8 @@ export class AuthService {
     private router: Router,
     private auth: Auth,
     private snackBar: MatSnackBar,
-    private productsService: ProductsService
+    private productsService: ProductsService,
+    private uiService: UIService
   ) {}
 
   initAuthListener() {
@@ -45,23 +47,29 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     createUserWithEmailAndPassword(this.auth, authData.email, authData.password)
       .then((result) => {
         console.log(result);
+        this.uiService.loadingStateChanged.next(false);
       })
       .catch((error) => {
         console.log(error);
         this.showSnackbar(error.message);
+        this.uiService.loadingStateChanged.next(false);
       });
   }
 
   login(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     signInWithEmailAndPassword(this.auth, authData.email, authData.password)
       .then((result) => {
         console.log(result);
+        this.uiService.loadingStateChanged.next(false);
       })
       .catch((error) => {
         console.log(error);
+        this.uiService.loadingStateChanged.next(false);
         this.showSnackbar(error.message);
       });
   }

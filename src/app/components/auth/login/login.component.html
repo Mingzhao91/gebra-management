@@ -19,9 +19,15 @@
       <mat-error>Missing password.</mat-error>
     </mat-form-field>
 
+    @if(!isLoading) {
     <button type="submit"
             mat-raised-button
             color="primary"
             [disabled]="loginForm.invalid">Login</button>
+    }
+
+    @if(isLoading) {
+    <mat-spinner></mat-spinner>
+    }
   </form>
 </section>
