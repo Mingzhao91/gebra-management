@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { authGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
   {
     path: 'signup',
@@ -28,6 +30,7 @@ export const routes: Routes = [
       import('./components/customers/customers.component').then(
         (x) => x.CustomersComponent
       ),
+    canActivate: [authGuard],
   },
   {
     path: 'orders',
@@ -35,6 +38,7 @@ export const routes: Routes = [
       import('./components/orders/orders.component').then(
         (x) => x.OrdersComponent
       ),
+    canActivate: [authGuard],
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
