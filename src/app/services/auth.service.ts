@@ -7,6 +7,7 @@ import {
   signOut,
   authState,
 } from '@angular/fire/auth';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Subject } from 'rxjs';
 
@@ -23,6 +24,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private auth: Auth,
+    private snackBar: MatSnackBar,
     private productsService: ProductsService
   ) {}
 
@@ -49,6 +51,7 @@ export class AuthService {
       })
       .catch((error) => {
         console.log(error);
+        this.showSnackbar(error.message);
       });
   }
 
@@ -59,6 +62,7 @@ export class AuthService {
       })
       .catch((error) => {
         console.log(error);
+        this.showSnackbar(error.message);
       });
   }
 
@@ -68,6 +72,14 @@ export class AuthService {
 
   isAuth() {
     return this.isAuthenticated;
+  }
+
+  showSnackbar(message: string) {
+    this.snackBar.open(message, undefined, {
+      duration: 3000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
+    });
   }
 
   // todo: create a firestore user when sign up, set up roles in there https://www.youtube.com/watch?v=qWy9ylc3f9U
