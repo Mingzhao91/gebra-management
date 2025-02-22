@@ -2,6 +2,33 @@
   <form class="signup-form"
         #f="ngForm"
         (ngSubmit)="onSubmit(f)">
+
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="First Name"
+             ngModel
+             name="firstName"
+             required
+             #firstNameInput="ngModel">
+      @if(firstNameInput.hasError('required')) {
+      <mat-error>Field must not be empty.</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <input type="text"
+             matInput
+             placeholder="Last Name"
+             ngModel
+             name="lastName"
+             required
+             #lastNameInput="ngModel">
+      @if(lastNameInput.hasError('required')) {
+      <mat-error>Field must not be empty.</mat-error>
+      }
+    </mat-form-field>
+
     <mat-form-field>
       <input type="email"
              matInput
@@ -14,7 +41,7 @@
       @if(emailInput.hasError('required')) {
       <mat-error>Field must not be empty.</mat-error>
       }
-      @if(!emailInput.hasError('required')) {
+      @if(!emailInput.hasError('email')) {
       <mat-error>E-Mail is invalid.</mat-error>
       }
     </mat-form-field>

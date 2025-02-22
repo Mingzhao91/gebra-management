@@ -68,8 +68,10 @@ export class AuthService {
       // console.log('result: ', result);
 
       const userData = {
-        firstName: 'firstName',
-        lastName: 'lastName',
+        firstName: authData.firstName,
+        lastName: authData.lastName,
+        email: authData.email,
+        roles: [],
       };
 
       const userRef = doc(this.firestore, 'users', result.user.uid);
