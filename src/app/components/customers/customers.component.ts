@@ -140,7 +140,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
   async updateCustomer(result: any) {
     this.isUploadingCustomer = true;
-    await this.customerService.updateCustomer(result.data.formValue);
+    await this.customerService.updateCustomer(
+      result.data.originalCustomer,
+      result.data.formValue
+    );
     this.isUploadingCustomer = false;
   }
 
