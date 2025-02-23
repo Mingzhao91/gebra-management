@@ -118,7 +118,8 @@
           mat-sort-header> Sales Progress </th>
       <td mat-cell
           *matCellDef="let row">
-        <app-sales-progress [currentProgress]="row.salesProgress"></app-sales-progress>
+        <app-sales-progress [currentProgress]="row.salesProgress"
+                            [isDisabled]="true"></app-sales-progress>
       </td>
     </ng-container>
 

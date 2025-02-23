@@ -13,6 +13,7 @@ import { SalesProgress } from '../../interfaces/customer.model';
 })
 export class SaleProgressComponent {
   @Input('currentProgress') currentProgress!: SalesProgress;
+  @Input('isDisabled') isDisabled = false;
   @Output('setSalesProgress') setSalesProgress =
     new EventEmitter<SalesProgress>();
 
