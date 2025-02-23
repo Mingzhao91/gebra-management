@@ -1,1 +1,14 @@
-<p>customers works!</p>
+<div class="common-bar">
+  <div class="buttons">
+    <div class="button-container">
+      <button mat-raised-button
+              color="warn"
+              aria-label="Add Customer"
+              [disabled]="!products || products?.length === 0"
+              (click)="openCustomerDialog(null)">
+        <mat-icon>add</mat-icon>
+        <span>Add Customer</span>
+      </button>
+    </div>
+  </div>
+</div>
