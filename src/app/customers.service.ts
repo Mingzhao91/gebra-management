@@ -27,7 +27,7 @@ export class CustomersService {
   fetchCustomers() {
     this.uiService.loadingStateChanged.next(true);
     const customerObs = collectionData(
-      query(collection(this.firestore, 'customers'), orderBy('createdAt')),
+      query(collection(this.firestore, 'customers'), orderBy('createdDate')),
       { idField: 'id' }
     ) as Observable<Customer[]>;
 
@@ -53,7 +53,8 @@ export class CustomersService {
   async createCustomer(formValue: Customer, docUser: DocUser) {
     let newCustomer: any = {
       ...formValue,
-      createdAt: new Date(),
+      createdDate: new Date(),
+      modifiedDate: new Date(),
       createdBy: docUser,
     };
 
@@ -84,7 +85,7 @@ export class CustomersService {
 
     let customerToUpdate: any = {
       ...formValue,
-      modifiedAt: new Date(),
+      modifiedDate: new Date(),
       id: originalCustomer.id,
     };
 
