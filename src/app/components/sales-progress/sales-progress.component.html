@@ -1,0 +1,10 @@
+<div class="sales-progresses-container">
+  @for(item of salesProgresses; track item) {
+  <div class="sales-progress-item"
+       [ngClass]="{active: salesProgresses.indexOf(currentProgress) >= $index}"
+       [ngStyle]="{width: getWidth()}"
+       (click)="onSalesProgressClick($index)">
+    <p>{{item}}</p>
+  </div>
+  }
+</div>

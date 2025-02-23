@@ -1,0 +1,26 @@
+.sales-progresses-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 5px 5px;
+  border: 1px solid #b0b0b0;
+  border-radius: 5px;
+}
+
+.sales-progress-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  line-height: 1;
+  p {
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 0;
+  }
+}
+
+.active {
+  background-color: red;
+  color: white;
+}
