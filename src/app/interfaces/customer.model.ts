@@ -14,6 +14,8 @@ export interface Customer {
     quantity: number;
   }[];
   salesProgress: SalesProgress;
+  createdAt: Date;
+  modifiedAt: Date;
 }
 
 export type SalesProgress =
