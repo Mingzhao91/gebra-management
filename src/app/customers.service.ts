@@ -5,23 +5,15 @@ import {
   doc,
   addDoc,
   collection,
-  getDocs,
   query,
   collectionData,
 } from '@angular/fire/firestore';
 import { orderBy, setDoc } from 'firebase/firestore';
-import {
-  Storage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-  deleteObject,
-} from '@angular/fire/storage';
 
 import { Customer } from './interfaces/customer.model';
-import { AuthService } from './services/auth.service';
 import { UIService } from './services/ui.service';
 import { Observable, Subject, Subscription } from 'rxjs';
+import { DocUser } from './interfaces/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,11 +22,7 @@ export class CustomersService {
   private fbSubs: Subscription[] = [];
   customers$ = new Subject<Customer[] | null>();
 
-  constructor(
-    private firestore: Firestore,
-    private authService: AuthService,
-    private uiService: UIService
-  ) {}
+  constructor(private firestore: Firestore, private uiService: UIService) {}
 
   fetchCustomers() {
     this.uiService.loadingStateChanged.next(true);
@@ -62,8 +50,12 @@ export class CustomersService {
     );
   }
 
-  async createCustomer(formValue: Customer) {
-    let newCustomer: any = { ...formValue, createdAt: new Date() };
+  async createCustomer(formValue: Customer, docUser: DocUser) {
+    let newCustomer: any = {
+      ...formValue,
+      createdAt: new Date(),
+      createdBy: docUser,
+    };
 
     // // setup reference for product
     // newCustomer.products = newCustomer.products.map((obj: any) => {
@@ -81,8 +73,6 @@ export class CustomersService {
     //   'users',
     //   this.authService.docUser!.uid
     // );
-
-    newCustomer.createdBy = this.authService.docUser;
 
     await addDoc(collection(this.firestore, 'customers'), newCustomer);
   }
@@ -107,5 +97,9 @@ export class CustomersService {
     await setDoc(docRef, customerToUpdate, { merge: true });
 
     //     await setDoc(doc(customersRef, customerToUpdate.id), customerToUpdate);
+  }
+
+  cancelSubscriptions() {
+    this.fbSubs.forEach((sub) => sub.unsubscribe());
   }
 }

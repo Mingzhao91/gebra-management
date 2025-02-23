@@ -22,6 +22,8 @@ import { CustomersService } from '../../customers.service';
 import { SaleProgressComponent } from '../sales-progress/sales-progress.component';
 import { MatSort } from '@angular/material/sort';
 import { UIService } from '../../services/ui.service';
+import { AuthService } from '../../services/auth.service';
+import { DocUser } from '../../interfaces/user.model';
 
 @Component({
   selector: 'app-customers',
@@ -69,6 +71,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private productService: ProductsService,
     private customerService: CustomersService,
+    private authService: AuthService,
     private uiService: UIService
   ) {}
 
@@ -134,7 +137,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
   async createCustomer(result: any) {
     this.isUploadingCustomer = true;
-    await this.customerService.createCustomer(result.data.formValue);
+    await this.customerService.createCustomer(
+      result.data.formValue,
+      this.authService.docUser as DocUser
+    );
     this.isUploadingCustomer = false;
   }
 
