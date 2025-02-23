@@ -1,0 +1,197 @@
+<h2 mat-dialog-title>{{data.customer ? 'Edit Customer' : 'Create Customer'}}</h2>
+
+<form [formGroup]="customerForm"
+      class="customer-form"
+      (ngSubmit)="onSubmit()">
+
+  <mat-dialog-content>
+
+    <!-- Name -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Name</mat-label>
+      <input type="text"
+             matInput
+             formControlName="name"
+             [errorStateMatcher]="matcher">
+      @if (customerForm.get('name')?.hasError('required')) {
+      <mat-error>This field is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Company -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Company</mat-label>
+      <input type="text"
+             matInput
+             formControlName="company"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- country -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Country</mat-label>
+      <mat-select formControlName="country"
+                  [errorStateMatcher]="matcher">
+        <mat-option>--</mat-option>
+        @for (countryName of countries; track countryName) {
+        <mat-option [value]="countryName">{{countryName}}</mat-option>
+        }
+      </mat-select>
+      @if (customerForm.get('country')?.hasError('required')) {
+      <mat-error>Please choose a country</mat-error>
+      }
+    </mat-form-field>
+
+
+    <!-- foundFrom -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>Found From</mat-label>
+      <mat-select formControlName="foundFrom"
+                  [errorStateMatcher]="matcher">
+        <mat-option>--</mat-option>
+        @for (platform of platforms; track platform) {
+        <mat-option [value]="platform">{{platform}}</mat-option>
+        }
+      </mat-select>
+      @if (customerForm.get('foundFrom')?.hasError('required')) {
+      <mat-error>Please choose a platform</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Contacts -->
+    <div>
+      <div class="arr-container">
+        <span>Contacts</span>
+        <button mat-mini-fab
+                color="warn"
+                aria-label="Add Contact"
+                type="button"
+                (click)="createContact()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div formArrayName="contacts">
+        @for(item of formArr('contacts').controls; track item;) {
+        <div [formGroupName]="$index"
+             class="arr-item-container">
+
+          <mat-form-field appearance="outline"
+                          class="arr-item-main">
+            <mat-label>Media Platform</mat-label>
+            <mat-select formControlName="mediaPlatform">
+              <mat-option>--</mat-option>
+              @for (platform of platforms; track platform) {
+              <mat-option [value]="platform">{{platform}}</mat-option>
+              }
+            </mat-select>
+            @if (formArr('contacts').controls[$index].get('mediaPlatform')?.hasError('required')) {
+            <mat-error>Please choose a platform</mat-error>
+            }
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Link</mat-label>
+            <input type="text"
+                   matInput
+                   formControlName="link"
+                   [errorStateMatcher]="matcher">
+            @if (formArr('contacts').controls[$index].get('link')?.hasError('required')) {
+            <mat-error>Please enter a link</mat-error>
+            }
+          </mat-form-field>
+
+
+          <button mat-mini-fab
+                  color="warn"
+                  class="upload-btn"
+                  type="button"
+                  (click)="removeArrItem('contacts', $index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+
+    </div>
+
+
+
+    <!-- Products -->
+    <div>
+      <div class="arr-container">
+        <span>Products</span>
+        <button mat-mini-fab
+                color="warn"
+                aria-label="Add Product"
+                type="button"
+                (click)="createProduct()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div formArrayName="products">
+        @for(item of formArr('products').controls; track item;) {
+        <div [formGroupName]="$index"
+             class="arr-item-container">
+
+          <mat-form-field appearance="outline"
+                          class="arr-item-main">
+            <mat-label>Product</mat-label>
+            <mat-select formControlName="product">
+              <mat-option>--</mat-option>
+              @for (product of data.products; track product) {
+              <mat-option [value]="product">{{product.modelNumber}}</mat-option>
+              }
+            </mat-select>
+            @if (formArr('products').controls[$index].get('product')?.hasError('required')) {
+            <mat-error>Please choose a product</mat-error>
+            }
+          </mat-form-field>
+
+
+          <mat-form-field appearance="outline">
+            <mat-label>Quantity</mat-label>
+            <input type="number"
+                   matInput
+                   formControlName="quantity"
+                   [errorStateMatcher]="matcher">
+            @if (formArr('products').controls[$index].get('quantity')?.hasError('required')) {
+            <mat-error>Please enter a quantity</mat-error>
+            }
+          </mat-form-field>
+
+
+          <button mat-mini-fab
+                  color="warn"
+                  class="upload-btn"
+                  type="button"
+                  (click)="removeArrItem('products', $index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close>Cancel</button>
+    <button mat-button
+            type="submit"
+            [disabled]="customerForm.invalid">{{data.customer ? 'Update' : 'Create'}}</button>
+    <!-- <button mat-button
+            type="button"
+            (click)="test()">
+      Test
+    </button> -->
+  </mat-dialog-actions>
+</form>
