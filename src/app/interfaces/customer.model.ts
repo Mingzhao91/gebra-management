@@ -13,7 +13,16 @@ export interface Customer {
     product: Product;
     quantity: number;
   }[];
+  salesProgress: SalesProgress;
 }
+
+export type SalesProgress =
+  | 'Quotation'
+  | 'Sample'
+  | 'PI'
+  | 'Payment'
+  | 'Manufacture Goods'
+  | 'Ship Goods';
 
 export interface MediaPlatformLink {
   mediaPlatform: MediaPlatform;

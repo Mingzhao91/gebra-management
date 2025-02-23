@@ -1,3 +1,5 @@
+import { SalesProgress } from '../interfaces/customer.model';
+
 export const HEADERS_MATCHER_ARR = [
   {
     sheetHeader: 'Product picture',
@@ -19,6 +21,15 @@ export const HEADERS_MATCHER_ARR = [
     sheetHeader: 'Description',
     fieldName: 'description',
   },
+];
+
+export const SALES_PROGRESSES: SalesProgress[] = [
+  'Quotation',
+  'Sample',
+  'PI',
+  'Payment',
+  'Manufacture Goods',
+  'Ship Goods',
 ];
 
 export const CATEGORIES = [
