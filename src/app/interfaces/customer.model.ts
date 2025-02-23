@@ -2,6 +2,7 @@ import { Product } from './product.model';
 import { DocUser } from './user.model';
 
 export interface Customer {
+  id?: string;
   createdBy?: DocUser;
   name: string;
   company: string;
