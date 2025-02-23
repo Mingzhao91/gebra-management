@@ -43,8 +43,10 @@ export class AuthService {
         this.isAuthenticated = true;
         this.authChange.next(true);
         this.authUser = user;
+        await this.getDocUserAndSent(user.uid);
+        console.log('authStateChange...., this.docUser: ', this.docUser);
         // TODO: navigate to customers or products depending on role
-        this.router.navigate(['/products']);
+        this.router.navigate(['/customers']);
       } else {
         this.productsService.cancelSubscriptions();
         this.authChange.next(false);
@@ -76,15 +78,7 @@ export class AuthService {
 
       const userRef = doc(this.firestore, 'users', result.user.uid);
       await setDoc(userRef, userData);
-
-      this.docUser = (await this.getDocById(
-        result.user.uid,
-        'users'
-      )) as DocUser;
-
-      // console.log('this.docUser: ', this.docUser);
-
-      this.docUser$.next(this.docUser);
+      await this.getDocUserAndSent(result.user.uid);
       this.uiService.loadingStateChanged.next(false);
     } catch (error: any) {
       console.log(error);
@@ -95,6 +89,14 @@ export class AuthService {
     }
   }
 
+  async getDocUserAndSent(uid: string) {
+    this.docUser = (await this.getDocById(uid, 'users')) as DocUser;
+
+    // console.log('this.docUser: ', this.docUser);
+
+    this.docUser$.next(this.docUser);
+  }
+
   async login(authData: AuthData) {
     try {
       this.uiService.loadingStateChanged.next(true);
@@ -103,15 +105,7 @@ export class AuthService {
         authData.email,
         authData.password
       );
-
-      this.docUser = (await this.getDocById(
-        result.user.uid,
-        'users'
-      )) as DocUser;
-
-      // console.log('this.docUser: ', this.docUser);
-
-      this.docUser$.next(this.docUser);
+      await this.getDocUserAndSent(result.user.uid);
       this.uiService.loadingStateChanged.next(false);
     } catch (error: any) {
       console.log(error);
