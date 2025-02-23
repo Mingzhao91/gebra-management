@@ -3,6 +3,8 @@
 
   margin-left: auto;
   margin-right: auto;
+
+  margin-bottom: 20px;
 }
 
 // ------------ table ------------------//
@@ -26,6 +28,14 @@ table {
 .mat-column-edit,
 .mat-column-shipGoods {
   width: 30px;
+}
+
+.mat-column-productQuantity {
+  width: 5%;
+}
+
+.mat-column-salesProgress {
+  width: 40%;
 }
 
 // ------------ spinner ------------------//
