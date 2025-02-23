@@ -32,6 +32,7 @@ import { MEDIA_PLATFORMS } from '../../constants/excel';
 import {
   Customer,
   MediaPlatform,
+  MediaPlatformLink,
   SalesProgress,
 } from '../../interfaces/customer.model';
 import { Product } from '../../interfaces/product.model';
@@ -88,6 +89,46 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
       products: this.fb.array([]),
       salesProgress: this.data.customer?.salesProgress || '',
     });
+
+    this.setContactsFormArray();
+    this.setProductsFormArray();
+  }
+
+  setContactsFormArray() {
+    if (this.data.customer?.contacts?.length > 0) {
+      const contacts = this.data.customer.contacts;
+
+      if (contacts?.length > 0) {
+        contacts.forEach((obj) => {
+          const contactFg = this.fb.group({
+            link: [obj.link, Validators.required],
+            mediaPlatform: [obj.mediaPlatform, Validators.required],
+          });
+          (this.customerForm.get('contacts') as FormArray)?.push(contactFg);
+        });
+      }
+    }
+  }
+
+  setProductsFormArray() {
+    if (this.data.customer?.products?.length > 0) {
+      const products = this.data.customer.products;
+
+      if (products?.length > 0) {
+        products.forEach((obj) => {
+          const productFg = this.fb.group({
+            quantity: [obj.quantity, Validators.required],
+            product: [
+              this.data.products.find(
+                (productDB) => productDB.id === obj.product.id
+              ),
+              Validators.required,
+            ],
+          });
+          (this.customerForm.get('products') as FormArray)?.push(productFg);
+        });
+      }
+    }
   }
   // ----------------------------------    emails, companies, contact numbers    ---------------------------------- //
   formArr(arrName: string) {
