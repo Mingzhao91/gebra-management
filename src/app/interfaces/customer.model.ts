@@ -11,7 +11,7 @@ export interface Customer {
   foundFrom: MediaPlatform; // where you get this client from
   contacts: MediaPlatformLink[];
   products: {
-    product: Product;
+    product: string;
     quantity: number;
   }[];
   salesProgress: SalesProgress;

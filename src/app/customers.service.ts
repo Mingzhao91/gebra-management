@@ -59,14 +59,14 @@ export class CustomersService {
     };
 
     // setup reference for product
-    newCustomer.products = newCustomer.products.map((obj: any) => {
-      let productRef = {
-        product: doc(this.firestore, 'products', obj.product.id),
-        quantity: obj.quantity,
-      };
+    // newCustomer.products = newCustomer.products.map((obj: any) => {
+    //   let productRef = {
+    //     product: doc(this.firestore, 'products', obj.product.id),
+    //     quantity: obj.quantity,
+    //   };
 
-      return productRef;
-    });
+    //   return productRef;
+    // });
 
     await addDoc(collection(this.firestore, 'customers'), newCustomer);
   }
@@ -83,14 +83,14 @@ export class CustomersService {
     };
 
     // setup reference for product
-    customerToUpdate.products = customerToUpdate.products.map((obj: any) => {
-      let productRef = {
-        product: doc(this.firestore, 'products', obj.product.id),
-        quantity: obj.quantity,
-      };
+    // customerToUpdate.products = customerToUpdate.products.map((obj: any) => {
+    //   let productRef = {
+    //     product: doc(this.firestore, 'products', obj.product.id),
+    //     quantity: obj.quantity,
+    //   };
 
-      return productRef;
-    });
+    //   return productRef;
+    // });
 
     // const customersRef = collection(this.firestore, 'customers');
 

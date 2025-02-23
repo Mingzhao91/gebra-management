@@ -13,10 +13,10 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { provideNativeDateAdapter } from '@angular/material/core';
 
-import { Customer, SalesProgress } from '../../interfaces/customer.model';
+import { Customer } from '../../interfaces/customer.model';
 import { CustomerDialogComponent } from '../customer-dialog/customer-dialog.component';
-import { Product } from '../../interfaces/product.model';
-import { ProductsService } from '../../services/products.service';
+// import { Product } from '../../interfaces/product.model';
+// import { ProductsService } from '../../services/products.service';
 import { Subscription } from 'rxjs';
 import { CustomersService } from '../../customers.service';
 import { SaleProgressComponent } from '../sales-progress/sales-progress.component';
@@ -42,8 +42,8 @@ import { DocUser } from '../../interfaces/user.model';
   styleUrl: './customers.component.scss',
 })
 export class CustomersComponent implements OnInit, OnDestroy {
-  products!: Product[] | null;
-  productSub!: Subscription;
+  // products!: Product[] | null;
+  // productSub!: Subscription;
   customers: Customer[] | null = [];
   customersSub!: Subscription;
   isUploadingCustomer = false;
@@ -56,9 +56,10 @@ export class CustomersComponent implements OnInit, OnDestroy {
     'company',
     'country',
     'foundFrom',
-    'productModelNumber',
+    'product',
     'productQuantity',
     'salesProgress',
+    'createdBy',
     'edit',
     'shipGoods',
   ];
@@ -69,7 +70,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private productService: ProductsService,
+    // private productService: ProductsService,
     private customerService: CustomersService,
     private authService: AuthService,
     private uiService: UIService
@@ -96,20 +97,20 @@ export class CustomersComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.productSub = this.productService.products$.subscribe((products) => {
-      this.products = products;
-      console.log('this.products: ', this.products);
-    });
+    // this.productSub = this.productService.products$.subscribe((products) => {
+    //   this.products = products;
+    //   console.log('this.products: ', this.products);
+    // });
 
     this.fetchCustomers();
-    this.fetchProducts();
+    // this.fetchProducts();
   }
 
-  fetchProducts() {
-    if (!this.products || this.products?.length === 0) {
-      this.productService.fetchProducts();
-    }
-  }
+  // fetchProducts() {
+  //   if (!this.products || this.products?.length === 0) {
+  //     this.productService.fetchProducts();
+  //   }
+  // }
 
   fetchCustomers() {
     if (!this.customers || this.customers?.length === 0) {
@@ -117,17 +118,17 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
   }
 
-  getProductModelNumber(item: { product: Product; quantity: number }) {
-    return this.products?.find((product) => product.id === item.product.id)
-      ?.modelNumber;
-  }
+  // getProductModelNumber(item: { product: Product; quantity: number }) {
+  //   return this.products?.find((product) => product.id === item.product.id)
+  //     ?.modelNumber;
+  // }
 
   openCustomerDialog(customer: Customer | null) {
     const dialogRef = this.dialog.open(CustomerDialogComponent, {
       disableClose: true,
       data: {
         customer: customer,
-        products: this.products,
+        // products: this.products,
       },
     });
 
@@ -161,8 +162,12 @@ export class CustomersComponent implements OnInit, OnDestroy {
   shipGoods(customer: Customer) {}
 
   ngOnDestroy(): void {
-    if (this.productSub) {
-      this.productSub.unsubscribe();
+    // if (this.productSub) {
+    //   this.productSub.unsubscribe();
+    // }
+
+    if (this.loadingSub) {
+      this.loadingSub.unsubscribe();
     }
   }
 }

@@ -35,7 +35,7 @@ import {
   MediaPlatformLink,
   SalesProgress,
 } from '../../interfaces/customer.model';
-import { Product } from '../../interfaces/product.model';
+// import { Product } from '../../interfaces/product.model';
 
 @Component({
   selector: 'app-customer-dialog',
@@ -69,7 +69,7 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<CustomerDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { customer: Customer; products: Product[] },
+    public data: { customer: Customer },
     private fb: FormBuilder
   ) {}
 
@@ -118,16 +118,26 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
         products.forEach((obj) => {
           const productFg = this.fb.group({
             quantity: [obj.quantity, Validators.required],
-            product: [
-              this.data.products.find(
-                (productDB) => productDB.id === obj.product.id
-              ),
-              Validators.required,
-            ],
+            product: [obj.product, Validators.required],
           });
           (this.customerForm.get('products') as FormArray)?.push(productFg);
         });
       }
+
+      // if (products?.length > 0) {
+      //   products.forEach((obj) => {
+      //     const productFg = this.fb.group({
+      //       quantity: [obj.quantity, Validators.required],
+      //       product: [
+      //         this.data.products.find(
+      //           (productDB) => productDB.id === obj.product.id
+      //         ),
+      //         Validators.required,
+      //       ],
+      //     });
+      //     (this.customerForm.get('products') as FormArray)?.push(productFg);
+      //   });
+      // }
     }
   }
   // ----------------------------------    emails, companies, contact numbers    ---------------------------------- //
@@ -177,10 +187,10 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
 
   // ----------------------------------    products    ---------------------------------- //
   createProduct() {
-    this.pushProductControlToArr(null, 0);
+    this.pushProductControlToArr('', 0);
   }
 
-  pushProductControlToArr(product: Product | null, quantity: number) {
+  pushProductControlToArr(product: string, quantity: number) {
     const productFg = this.fb.group({
       product: [product, Validators.required],
       quantity: [quantity, Validators.required],

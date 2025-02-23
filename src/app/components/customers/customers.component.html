@@ -4,7 +4,6 @@
       <button mat-raised-button
               color="warn"
               aria-label="Add Customer"
-              [disabled]="!products || products?.length === 0"
               (click)="openCustomerDialog(null)">
         <mat-icon>add</mat-icon>
         <span>Add Customer</span>
@@ -72,18 +71,28 @@
     </ng-container>
 
     <!-- products name column -->
-    <ng-container matColumnDef="productModelNumber">
+    <ng-container matColumnDef="product">
       <th mat-header-cell
           *matHeaderCellDef
-          mat-sort-header> Model Number </th>
+          mat-sort-header> Product </th>
       <td mat-cell
           *matCellDef="let row">
         <div class="products-column">
           @for(item of row.products; track item) {
-          <p>{{getProductModelNumber(item)}}</p>
+          <p>{{item.product}}</p>
           }
         </div>
       </td>
+    </ng-container>
+
+
+    <!-- createdBy column -->
+    <ng-container matColumnDef="createdBy">
+      <th mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header> Created By </th>
+      <td mat-cell
+          *matCellDef="let row"> {{row.createdBy.firstName}} {{row.createdBy.lastName}}</td>
     </ng-container>
 
     <!-- products quantity column -->
