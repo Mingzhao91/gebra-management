@@ -177,8 +177,10 @@
         </div>
         }
       </div>
-
     </div>
+
+    <app-sales-progress [currentProgress]="customerForm.get('salesProgress')?.value"
+                        (setSalesProgress)="onSalesProgressSet($event)"></app-sales-progress>
 
   </mat-dialog-content>
 

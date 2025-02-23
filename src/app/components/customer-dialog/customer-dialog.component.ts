@@ -25,10 +25,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 
+import { SaleProgressComponent } from '../sales-progress/sales-progress.component';
+
 import { MyErrorStateMatcher } from '../../services/utils.service';
 import { MEDIA_PLATFORMS } from '../../constants/excel';
-import { Customer, MediaPlatform } from '../../interfaces/customer.model';
-import { AuthService } from '../../services/auth.service';
+import {
+  Customer,
+  MediaPlatform,
+  SalesProgress,
+} from '../../interfaces/customer.model';
 import { Product } from '../../interfaces/product.model';
 
 @Component({
@@ -46,6 +51,8 @@ import { Product } from '../../interfaces/product.model';
     MatSelectModule,
     MatIconModule,
     MatCardModule,
+    // components
+    SaleProgressComponent,
   ],
   templateUrl: './customer-dialog.component.html',
   styleUrl: './customer-dialog.component.scss',
@@ -62,8 +69,7 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<CustomerDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
     public data: { customer: Customer; products: Product[] },
-    private fb: FormBuilder,
-    private authService: AuthService
+    private fb: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -80,6 +86,7 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
       foundFrom: [this.data.customer?.foundFrom || ''],
       contacts: this.fb.array([]),
       products: this.fb.array([]),
+      salesProgress: this.data.customer?.salesProgress || '',
     });
   }
   // ----------------------------------    emails, companies, contact numbers    ---------------------------------- //
@@ -144,6 +151,12 @@ export class CustomerDialogComponent implements OnInit, OnDestroy {
     //   "this.customerForm.get('products'): ",
     //   this.customerForm.get('products')
     // );
+  }
+
+  // ----------------------------------    Sales Progress    ---------------------------------- //
+  onSalesProgressSet(salesProgress: SalesProgress) {
+    this.customerForm.get('salesProgress')?.setValue(salesProgress);
+    console.log('this.customerForm.value: ', this.customerForm.value);
   }
 
   // ----------------------------------    submit    ---------------------------------- //
