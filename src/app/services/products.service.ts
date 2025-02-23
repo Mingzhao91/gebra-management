@@ -8,6 +8,7 @@ import {
   query,
   collectionData,
 } from '@angular/fire/firestore';
+import { orderBy, setDoc } from 'firebase/firestore';
 import {
   Storage,
   ref,
@@ -21,7 +22,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 import { Product } from '../interfaces/product.model';
 import { FileUpload } from '../classes/file-upload';
-import { orderBy, setDoc } from 'firebase/firestore';
 import { UIService } from './ui.service';
 
 @Injectable({
