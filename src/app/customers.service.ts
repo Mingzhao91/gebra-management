@@ -87,5 +87,25 @@ export class CustomersService {
     await addDoc(collection(this.firestore, 'customers'), newCustomer);
   }
 
-  async updateCustomer(formValue: Customer) {}
+  async updateCustomer(originalCustomer: Customer, formValue: Customer) {
+    // console.log('update cust......');
+    // console.log('formValue: ', formValue);
+    // console.log('originalCustomer: ', originalCustomer);
+
+    let customerToUpdate: any = {
+      ...formValue,
+      modifiedAt: new Date(),
+      id: originalCustomer.id,
+    };
+
+    // const customersRef = collection(this.firestore, 'customers');
+
+    // Create a reference to the document with a specific ID
+    const docRef = doc(this.firestore, 'customers', customerToUpdate.id);
+
+    // Set the document data
+    await setDoc(docRef, customerToUpdate, { merge: true });
+
+    //     await setDoc(doc(customersRef, customerToUpdate.id), customerToUpdate);
+  }
 }
