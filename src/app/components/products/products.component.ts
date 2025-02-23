@@ -107,7 +107,7 @@ export class ProductsComponent {
     this.productsSub = this.productService.products$.subscribe((products) => {
       // console.log('from firebase.....');
       // console.log(products);
-      this.products = products;
+      // this.products = products;
 
       if (products) {
         this.products = products;
@@ -139,7 +139,8 @@ export class ProductsComponent {
   //   }
   // }
 
-  // selection
+  // --------------------------   Select Product(s)   -------------------------------//
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -182,6 +183,8 @@ export class ProductsComponent {
       this.isDownloadingExcelFile = false;
     }
   }
+
+  // --------------------------   Create / Edit Product   -------------------------------//
 
   openProductDialog(product: Product | null) {
     const dialogRef = this.dialog.open(ProductDialogComponent, {
