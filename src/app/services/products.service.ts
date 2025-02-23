@@ -56,7 +56,7 @@ export class ProductsService {
           console.log('error.....');
           this.uiService.loadingStateChanged.next(false);
           this.uiService.showSnackboar(
-            'Fetching exercises failed, please try again later'
+            'Fetching products failed, please try again later'
           );
           this.products$.next(null);
         },
