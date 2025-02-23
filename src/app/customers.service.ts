@@ -20,32 +20,69 @@ import {
 
 import { Customer } from './interfaces/customer.model';
 import { AuthService } from './services/auth.service';
+import { UIService } from './services/ui.service';
+import { Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CustomersService {
-  constructor(private firestore: Firestore, private authService: AuthService) {}
+  private fbSubs: Subscription[] = [];
+  customers$ = new Subject<Customer[] | null>();
+
+  constructor(
+    private firestore: Firestore,
+    private authService: AuthService,
+    private uiService: UIService
+  ) {}
+
+  fetchCustomers() {
+    this.uiService.loadingStateChanged.next(true);
+    const customerObs = collectionData(
+      query(collection(this.firestore, 'customers'), orderBy('createdAt')),
+      { idField: 'id' }
+    ) as Observable<Customer[]>;
+
+    this.fbSubs.push(
+      customerObs.subscribe({
+        next: (customers) => {
+          this.uiService.loadingStateChanged.next(false);
+          this.customers$.next([...customers]);
+          console.log('customers: ', customers);
+        },
+        error: (error) => {
+          console.log('error.....');
+          this.uiService.loadingStateChanged.next(false);
+          this.uiService.showSnackboar(
+            'Fetching customers failed, please try again later'
+          );
+          this.customers$.next(null);
+        },
+      })
+    );
+  }
 
   async createCustomer(formValue: Customer) {
-    let newCustomer: any = { ...formValue };
+    let newCustomer: any = { ...formValue, createdAt: new Date() };
 
-    // setup reference for product
-    newCustomer.products = newCustomer.products.map((obj: any) => {
-      let productRef = {
-        product: doc(this.firestore, 'products', obj.product.id),
-        quantity: obj.quantity,
-      };
+    // // setup reference for product
+    // newCustomer.products = newCustomer.products.map((obj: any) => {
+    //   let productRef = {
+    //     product: doc(this.firestore, 'products', obj.product.id),
+    //     quantity: obj.quantity,
+    //   };
 
-      return productRef;
-    });
+    //   return productRef;
+    // });
 
-    // setup reference for createdBy
-    newCustomer.createdBy = doc(
-      this.firestore,
-      'users',
-      this.authService.docUser!.uid
-    );
+    // // setup reference for createdBy
+    // newCustomer.createdBy = doc(
+    //   this.firestore,
+    //   'users',
+    //   this.authService.docUser!.uid
+    // );
+
+    newCustomer.createdBy = this.authService.docUser;
 
     await addDoc(collection(this.firestore, 'customers'), newCustomer);
   }
