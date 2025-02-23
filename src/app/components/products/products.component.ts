@@ -127,7 +127,9 @@ export class ProductsComponent {
   }
 
   fetchProducts() {
-    this.productService.fetchProducts();
+    if (!this.products || this.products?.length === 0) {
+      this.productService.fetchProducts();
+    }
   }
 
   // ngAfterViewInit() {
