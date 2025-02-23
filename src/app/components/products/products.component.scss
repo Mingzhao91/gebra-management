@@ -55,7 +55,7 @@
 // ------------ table ------------------//
 
 .table-container {
-  width: 80%;
+  width: 90%;
   margin-left: auto;
   margin-right: auto;
   overflow: auto;
@@ -108,6 +108,10 @@ table {
 
 .mat-column-prices {
   width: 10%;
+}
+
+.table-icon:hover {
+  cursor: pointer;
 }
 
 .spinner-wrapper {

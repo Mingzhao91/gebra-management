@@ -131,6 +131,7 @@
       <td mat-cell
           *matCellDef="let row">
         <mat-icon color="warn"
+                  class="table-icon"
                   (click)="openCustomerDialog(row)">edit</mat-icon>
       </td>
     </ng-container>
@@ -144,6 +145,7 @@
           *matCellDef="let row">
 
         <mat-icon color="warn"
+                  class="table-icon"
                   (click)="shipGoods(row)">
           <svg xmlns="http://www.w3.org/2000/svg"
                height="24px"
