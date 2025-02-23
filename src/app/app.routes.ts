@@ -26,7 +26,7 @@ export const routes: Routes = [
       import('./components/customers/customers.component').then(
         (x) => x.CustomersComponent
       ),
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
   },
   {
     path: 'orders',
