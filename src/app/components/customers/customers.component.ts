@@ -117,6 +117,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     }
   }
 
+  getProductModelNumber(item: { product: Product; quantity: number }) {
+    return this.products?.find((product) => product.id === item.product.id)
+      ?.modelNumber;
+  }
+
   openCustomerDialog(customer: Customer | null) {
     const dialogRef = this.dialog.open(CustomerDialogComponent, {
       disableClose: true,

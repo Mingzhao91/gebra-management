@@ -80,7 +80,7 @@
           *matCellDef="let row">
         <div class="products-column">
           @for(item of row.products; track item) {
-          <p>{{item.product.modelNumber}}</p>
+          <p>{{getProductModelNumber(item)}}</p>
           }
         </div>
       </td>

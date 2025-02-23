@@ -53,27 +53,20 @@ export class CustomersService {
   async createCustomer(formValue: Customer, docUser: DocUser) {
     let newCustomer: any = {
       ...formValue,
+      createdBy: docUser,
       createdDate: new Date(),
       modifiedDate: new Date(),
-      createdBy: docUser,
     };
 
-    // // setup reference for product
-    // newCustomer.products = newCustomer.products.map((obj: any) => {
-    //   let productRef = {
-    //     product: doc(this.firestore, 'products', obj.product.id),
-    //     quantity: obj.quantity,
-    //   };
+    // setup reference for product
+    newCustomer.products = newCustomer.products.map((obj: any) => {
+      let productRef = {
+        product: doc(this.firestore, 'products', obj.product.id),
+        quantity: obj.quantity,
+      };
 
-    //   return productRef;
-    // });
-
-    // // setup reference for createdBy
-    // newCustomer.createdBy = doc(
-    //   this.firestore,
-    //   'users',
-    //   this.authService.docUser!.uid
-    // );
+      return productRef;
+    });
 
     await addDoc(collection(this.firestore, 'customers'), newCustomer);
   }
@@ -88,6 +81,16 @@ export class CustomersService {
       modifiedDate: new Date(),
       id: originalCustomer.id,
     };
+
+    // setup reference for product
+    customerToUpdate.products = customerToUpdate.products.map((obj: any) => {
+      let productRef = {
+        product: doc(this.firestore, 'products', obj.product.id),
+        quantity: obj.quantity,
+      };
+
+      return productRef;
+    });
 
     // const customersRef = collection(this.firestore, 'customers');
 
