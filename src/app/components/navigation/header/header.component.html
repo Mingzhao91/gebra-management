@@ -17,11 +17,11 @@
       <li><a routerLink="/signup">Signup</a></li>
       <li><a routerLink="/login">Login</a></li>
       }
-
+      <!-- todo: move back to isAuth -->
+      <li><a routerLink="/customers">Customers</a></li>
       <li><a routerLink="/products">Products</a></li>
 
       @if(isAuth) {
-      <li><a routerLink="/customers">Customers</a></li>
       <li><a routerLink="/orders">Orders</a></li>
       <li><a style="cursor: pointer"
            (click)="onLogout()">Logout</a></li>
