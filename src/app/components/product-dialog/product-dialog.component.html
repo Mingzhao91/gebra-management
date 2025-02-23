@@ -77,7 +77,7 @@
         <span>Prices</span>
         <button mat-mini-fab
                 color="warn"
-                aria-label="Add Product"
+                aria-label="Add Product Price"
                 type="button"
                 (click)="createProductPrice()">
           <mat-icon>add</mat-icon>
@@ -85,7 +85,7 @@
       </div>
 
       <div formArrayName="prices">
-        @for (priceItem of prices.controls; track $index) {
+        @for (priceItem of prices.controls; track priceItem) {
         <div [formGroupName]="$index"
              class="price-item-container">
           <!-- Currency -->
