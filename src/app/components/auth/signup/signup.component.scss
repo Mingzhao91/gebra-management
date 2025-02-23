@@ -1,3 +1,10 @@
+.component-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .signup-form {
   display: flex;
   flex-direction: column;
