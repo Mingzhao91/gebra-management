@@ -7,3 +7,12 @@ mat-sidenav {
 mat-sidenav {
   width: 250px;
 }
+
+mat-sidenav-content {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
