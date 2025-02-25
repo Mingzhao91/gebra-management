@@ -46,6 +46,7 @@ export class SignupComponent {
       password: form.value.password,
       firstName: form.value.firstName,
       lastName: form.value.lastName,
+      englishName: form.value.englishName,
     });
   }
 

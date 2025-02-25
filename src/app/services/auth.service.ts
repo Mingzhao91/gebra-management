@@ -75,6 +75,7 @@ export class AuthService {
       const userData = {
         firstName: authData.firstName,
         lastName: authData.lastName,
+        englishName: authData.englishName,
         email: authData.email,
         roles: [],
       };
