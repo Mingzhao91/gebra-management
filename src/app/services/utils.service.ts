@@ -16,6 +16,7 @@ import {
   ProductsExcel,
 } from '../interfaces/product.model';
 import { HEADERS_MATCHER_ARR } from '../constants/excel';
+import { DocUser } from '../interfaces/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,13 @@ export class UtilsService {
     let dateStr = date ? moment(date.toDate()).format(format) : '';
 
     return dateStr;
+  }
+
+  amICreator(record: any, docUser: DocUser | null) {
+    // console.log('record.createdBy?.uid: ', record.createdBy?.uid);
+    // console.log('docUser?.uid: ', docUser?.uid);
+
+    return record && docUser && record.createdBy?.uid === docUser?.uid;
   }
 
   // ----------------------------------    Excel    ---------------------------------- //
