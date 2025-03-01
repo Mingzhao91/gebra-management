@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CurrencyPipe } from '@angular/common';
+// import { Timestamp } from '@firebase/firestore';
 import moment from 'moment';
 import * as ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
@@ -25,6 +26,19 @@ export class UtilsService {
   formatStrToHtml(str: string) {
     return str.replaceAll('\\n', '<br>');
   }
+
+  formatFbDate(date: any, format = 'YYYY-MM-DD') {
+    // console.log('date: ', date);
+    // console.log('date.toString(): ', date.toString());
+
+    // console.log('Timestamp.fromDate(date): ', Timestamp.fromDate(date));
+
+    let dateStr = date ? moment(date.toDate()).format(format) : '';
+
+    return dateStr;
+  }
+
+  // ----------------------------------    Excel    ---------------------------------- //
 
   getProductExcel(data: Product[]) {
     let categoryGroup: ProductsExcel = {};
