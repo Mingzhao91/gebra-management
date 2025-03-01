@@ -19,6 +19,7 @@ import { ProductsService } from './products.service';
 import { UIService } from './ui.service';
 import { DocUser } from '../interfaces/user.model';
 import { CustomersService } from '../customers.service';
+import { OrdersService } from './orders.service';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +37,7 @@ export class AuthService {
     private firestore: Firestore,
     private productsService: ProductsService,
     private customersService: CustomersService,
+    private ordersService: OrdersService,
     private uiService: UIService
   ) {}
 
@@ -52,6 +54,7 @@ export class AuthService {
       } else {
         this.productsService.cancelSubscriptions();
         this.customersService.cancelSubscriptions();
+        this.ordersService.cancelSubscriptions();
         this.authChange.next(false);
         this.authUser = null;
         this.docUser = null;
