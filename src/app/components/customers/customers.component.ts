@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,11 +25,13 @@ import { MatSort } from '@angular/material/sort';
 import { UIService } from '../../services/ui.service';
 import { AuthService } from '../../services/auth.service';
 import { DocUser } from '../../interfaces/user.model';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-customers',
   standalone: true,
   imports: [
+    DecimalPipe,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -72,8 +75,9 @@ export class CustomersComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     // private productService: ProductsService,
     private customerService: CustomersService,
-    private authService: AuthService,
-    private uiService: UIService
+    public authService: AuthService,
+    private uiService: UIService,
+    public utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
