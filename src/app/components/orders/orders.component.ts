@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +31,7 @@ import { UtilsService } from '../../services/utils.service';
   selector: 'app-orders',
   standalone: true,
   imports: [
+    DecimalPipe,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -79,7 +81,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private customersService: CustomersService,
     private ordersService: OrdersService,
-    private authService: AuthService,
+    public authService: AuthService,
     private uiService: UIService,
     public utilsService: UtilsService
   ) {}
