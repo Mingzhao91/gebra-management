@@ -8,7 +8,7 @@ import {
   query,
   collectionData,
 } from '@angular/fire/firestore';
-import { orderBy, setDoc } from 'firebase/firestore';
+import { getDocs, orderBy, setDoc, updateDoc, where } from 'firebase/firestore';
 
 import { Customer } from './interfaces/customer.model';
 import { UIService } from './services/ui.service';
@@ -36,7 +36,7 @@ export class CustomersService {
         next: (customers) => {
           this.uiService.loadingStateChanged.next(false);
           this.customers$.next([...customers]);
-          console.log('customers: ', customers);
+          // console.log('customers: ', customers);
         },
         error: (error) => {
           console.log('error.....');
@@ -101,6 +101,35 @@ export class CustomersService {
     await setDoc(docRef, customerToUpdate, { merge: true });
 
     //     await setDoc(doc(customersRef, customerToUpdate.id), customerToUpdate);
+
+    // update order records
+    this.updateRelevantRecords(customerToUpdate);
+  }
+
+  async updateRelevantRecords(newCustomerData: Customer) {
+    try {
+      // Query all orders that reference this customer
+      const ordersRef = collection(this.firestore, 'orders');
+      const q = query(
+        ordersRef,
+        where('customer.id', '==', newCustomerData.id)
+      );
+      const ordersSnapshot = await getDocs(q);
+
+      const updatePromises = ordersSnapshot.docs.map((orderDoc) => {
+        const orderRef = doc(this.firestore, 'orders', orderDoc.id);
+        return updateDoc(orderRef, { customer: newCustomerData });
+      });
+
+      await Promise.all(updatePromises);
+      // console.log('Updated all related orders');
+    } catch (error) {
+      console.log('error.....');
+      this.uiService.loadingStateChanged.next(false);
+      this.uiService.showSnackboar(
+        'Fetching customers failed, please try again later'
+      );
+    }
   }
 
   cancelSubscriptions() {
