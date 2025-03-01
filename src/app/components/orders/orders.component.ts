@@ -24,6 +24,7 @@ import { DocUser } from '../../interfaces/user.model';
 import { Order } from '../../interfaces/order.model';
 import { OrdersService } from '../../services/orders.service';
 import { OrderDialogComponent } from '../order-dialog/order-dialog.component';
+import { UtilsService } from '../../services/utils.service';
 
 @Component({
   selector: 'app-orders',
@@ -51,13 +52,13 @@ export class OrdersComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'customer',
     'orderSerialNumber', // 订单序列号
-    'product', // 产品型号
-    'quantity',
+    'productModel', // 产品型号
     'price',
+    'quantity',
     'total',
-    'packagingRequirements', // 包装要求
-    'bareMachineRequirements', // 裸机要求
-    'cartonRequirements', // 装箱要求
+    // 'packagingRequirements', // 包装要求
+    // 'bareMachineRequirements', // 裸机要求
+    // 'cartonRequirements', // 装箱要求
     'plannedShippingDate', // 计划发货日期
     'actualShippingDate', // 实际发货日期
     'shippingChannel', // 运输渠道
@@ -65,6 +66,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
     'collectedShippingFee', // 收取运费
     'actualShippingFee', // 实际运费
     'notes', // 备注
+    'edit',
+    'notify', // admin -> stock
+    'receivedByCustomer',
   ];
   dataSource!: MatTableDataSource<Order>;
 
@@ -76,12 +80,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
     private customersService: CustomersService,
     private ordersService: OrdersService,
     private authService: AuthService,
-    private uiService: UIService
+    private uiService: UIService,
+    public utilsService: UtilsService
   ) {}
 
   ngOnInit(): void {
-    console.log('this.docUser: ', this.authService.docUser);
-
     this.loadingSub = this.uiService.loadingStateChanged.subscribe(
       (isLoading) => {
         this.isLoading = isLoading;
@@ -108,8 +111,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.fetchOrders();
     this.fetchCustomers();
+    this.fetchOrders();
   }
 
   fetchOrders() {
@@ -160,9 +163,17 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.isUploadingOrders = false;
   }
 
+  notify() {}
+
+  receivedByCustomer() {}
+
   ngOnDestroy(): void {
     if (this.customersSub) {
       this.customersSub.unsubscribe();
+    }
+
+    if (this.ordersSub) {
+      this.ordersSub.unsubscribe();
     }
 
     if (this.loadingSub) {
