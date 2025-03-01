@@ -109,8 +109,12 @@ export class OrderDialogComponent implements OnInit, OnDestroy {
       packagingRequirements: [this.data.order?.packagingRequirements || ''],
       bareMachineRequirements: [this.data.order?.bareMachineRequirements || ''],
       cartonRequirements: [this.data.order?.cartonRequirements || ''],
-      plannedShippingDate: [this.data.order?.plannedShippingDate || null],
-      actualShippingDate: [this.data.order?.actualShippingDate || null],
+      plannedShippingDate: [
+        (this.data.order?.plannedShippingDate as any).toDate() || null,
+      ],
+      actualShippingDate: [
+        (this.data.order?.actualShippingDate as any).toDate() || null,
+      ],
       shippingChannel: [this.data.order?.shippingChannel || ''],
       internationalLogistics: [this.data.order?.internationalLogistics || ''],
       collectedShippingFee: [this.data.order?.collectedShippingFee || 0],
@@ -118,7 +122,20 @@ export class OrderDialogComponent implements OnInit, OnDestroy {
       notes: [this.data.order?.notes || ''],
     });
 
+    this.setCustomer();
     this.setProductsFormArray();
+  }
+
+  setCustomer() {
+    if (this.data.order?.customer) {
+      if (this.data.customers) {
+        const customerFound = this.data.customers.find(
+          (cust) => cust.id === this.data.order?.customer.id
+        );
+
+        this.orderForm.get('customer')?.setValue(customerFound);
+      }
+    }
   }
 
   setProductsFormArray() {
@@ -217,7 +234,7 @@ export class OrderDialogComponent implements OnInit, OnDestroy {
     this.dialogRef.close({
       event: this.data.order ? 'update' : 'create',
       data: {
-        originalorder: this.data.order,
+        originalOrder: this.data.order,
         formValue: this.orderForm.value,
       },
     });
