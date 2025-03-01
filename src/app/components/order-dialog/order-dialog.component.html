@@ -1,0 +1,250 @@
+<h2 mat-dialog-title>{{data.order ? 'Edit Order' : 'Create Order'}}</h2>
+
+<!-- // 'customer',
+
+// 'productModel', // 产品型号
+// 'quantity',
+// 'price',
+
+// 'total',
+
+// 'packagingRequirements', // 包装要求
+// 'bareMachineRequirements', // 裸机要求
+// 'cartonRequirements', // 装箱要求
+
+// 'plannedShippingDate', // 计划发货日期 ?
+// 'actualShippingDate', // 实际发货日期 ?
+
+// 'shippingChannel', // 运输渠道
+// 'internationalLogistics', // 国际物流
+// 'collectedShippingFee', // 收取运费
+// 'actualShippingFee', // 实际运费
+// 'notes', // 备注 -->
+
+
+<form [formGroup]="orderForm"
+      class="order-form"
+      (ngSubmit)="onSubmit()">
+
+  <mat-dialog-content>
+
+    <!-- Customer -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>客户</mat-label>
+      <mat-select formControlName="customer"
+                  [errorStateMatcher]="matcher">
+        <mat-option>--</mat-option>
+        @for (customer of data.customers; track customer) {
+        <mat-option [value]="customer">{{customer.name}} -
+          {{customer.createdBy?.lastName}}{{customer.createdBy?.firstName}}</mat-option>
+        }
+      </mat-select>
+      @if (orderForm.get('customer')?.hasError('required')) {
+      <mat-error>Please choose a customer</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Products -->
+    <div>
+      <div class="arr-container">
+        <span>产品</span>
+        <button mat-mini-fab
+                color="warn"
+                aria-label="Add Product"
+                type="button"
+                (click)="createProduct()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+
+      <div formArrayName="products">
+        @for(item of formArr('products').controls; track item;) {
+        <div [formGroupName]="$index"
+             class="arr-item-container">
+
+          <mat-form-field appearance="outline"
+                          class="arr-item-main">
+            <mat-label>产品型号</mat-label>
+            <input type="text"
+                   matInput
+                   formControlName="productModel"
+                   [errorStateMatcher]="matcher">
+            @if (formArr('products').controls[$index].get('productModel')?.hasError('required')) {
+            <mat-error>Please enter a product model</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>单价</mat-label>
+            <input type="number"
+                   matInput
+                   formControlName="price"
+                   (ngModelChange)="updateTotal()"
+                   [errorStateMatcher]="matcher">
+            @if (formArr('products').controls[$index].get('price')?.hasError('required')) {
+            <mat-error>Please enter a price</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>数量</mat-label>
+            <input type="number"
+                   matInput
+                   formControlName="quantity"
+                   (ngModelChange)="updateTotal()"
+                   [errorStateMatcher]="matcher">
+            @if (formArr('products').controls[$index].get('quantity')?.hasError('required')) {
+            <mat-error>Please enter a quantity</mat-error>
+            }
+          </mat-form-field>
+
+
+
+          <button mat-mini-fab
+                  color="warn"
+                  class="upload-btn"
+                  type="button"
+                  (click)="removeArrItem('products', $index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        }
+      </div>
+    </div>
+
+    <!-- Total -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>总价</mat-label>
+      <input type="number"
+             matInput
+             formControlName="total"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- packagingRequirements -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>包装要求</mat-label>
+      <textarea matInput
+                formControlName="packagingRequirements"
+                [errorStateMatcher]="matcher"></textarea>
+    </mat-form-field>
+
+    <!-- bareMachineRequirements -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>裸机要求</mat-label>
+      <textarea matInput
+                formControlName="bareMachineRequirements"
+                [errorStateMatcher]="matcher"></textarea>
+    </mat-form-field>
+
+    <!-- cartonRequirements -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>装箱要求</mat-label>
+      <textarea matInput
+                formControlName="cartonRequirements"
+                [errorStateMatcher]="matcher"></textarea>
+    </mat-form-field>
+
+    <div class="full-width dates-container">
+      <!-- plannedShippingDate -->
+      <mat-form-field>
+        <mat-label>计划发货日期</mat-label>
+        <input matInput
+               formControlName="plannedShippingDate"
+               [matDatepicker]="dpPlannedShipping">
+        <!-- <mat-hint>DD/MM/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix
+                               [for]="dpPlannedShipping"></mat-datepicker-toggle>
+        <mat-datepicker #dpPlannedShipping
+                        disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+      <!-- actualShippingDate -->
+      <mat-form-field>
+        <mat-label>实际发货日期</mat-label>
+        <input matInput
+               formControlName="actualShippingDate"
+               [matDatepicker]="dpActualShippingDate">
+        <!-- <mat-hint>DD/MM/YYYY</mat-hint> -->
+        <mat-datepicker-toggle matIconSuffix
+                               [for]="dpActualShippingDate"></mat-datepicker-toggle>
+        <mat-datepicker #dpActualShippingDate
+                        disabled="false"></mat-datepicker>
+      </mat-form-field>
+
+    </div>
+
+
+    <!-- ShippingChannel -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>运输渠道</mat-label>
+      <input type="text"
+             matInput
+             formControlName="shippingChannel"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- internationalLogistics -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>国际物流</mat-label>
+      <input type="text"
+             matInput
+             formControlName="internationalLogistics"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- collectedShippingFee -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>收取运费</mat-label>
+      <input type="number"
+             matInput
+             formControlName="collectedShippingFee"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- actualShippingFee -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>实际运费</mat-label>
+      <input type="number"
+             matInput
+             formControlName="actualShippingFee"
+             [errorStateMatcher]="matcher">
+    </mat-form-field>
+
+    <!-- notes -->
+    <mat-form-field class="full-width"
+                    appearance="outline">
+      <mat-label>备注</mat-label>
+      <textarea matInput
+                formControlName="notes"
+                [errorStateMatcher]="matcher"></textarea>
+    </mat-form-field>
+
+
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button
+            mat-dialog-close>Cancel</button>
+    <button mat-button
+            type="submit"
+            [disabled]="orderForm.invalid">{{data.order ? 'Update' : 'Create'}}</button>
+    <button mat-button
+            type="button"
+            (click)="test()">
+      Test
+    </button>
+  </mat-dialog-actions>
+
+</form>
