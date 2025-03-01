@@ -109,6 +109,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
       (customers) => {
         if (customers) {
           this.customers = customers;
+          this.customers.sort((a: Customer, b: Customer) =>
+            a.name.localeCompare(b.name)
+          );
         }
       }
     );
