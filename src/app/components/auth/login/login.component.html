@@ -5,25 +5,25 @@
     <mat-form-field>
       <input type="email"
              matInput
-             placeholder="Your email"
+             placeholder="电子邮箱"
              formControlName="email">
-      <mat-hint>Please enter a valid email.</mat-hint>
-      <mat-error>Invalid or missing email.</mat-error>
+      <mat-hint>请输入一个有效的电子邮件地址</mat-hint>
+      <mat-error>电子邮件无效或缺失</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input type="password"
              matInput
-             placeholder="Your password"
+             placeholder="密码"
              formControlName="password">
-      <mat-hint>Please enter your password.</mat-hint>
-      <mat-error>Missing password.</mat-error>
+      <mat-hint>请输入您的密码</mat-hint>
+      <mat-error>密码缺失</mat-error>
     </mat-form-field>
 
     @if(!isLoading) {
     <button type="submit"
             mat-raised-button
             color="primary"
-            [disabled]="loginForm.invalid">Login</button>
+            [disabled]="loginForm.invalid">登入</button>
     }
 
     @if(isLoading) {

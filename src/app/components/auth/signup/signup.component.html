@@ -6,69 +6,69 @@
     <mat-form-field>
       <input type="text"
              matInput
-             placeholder="First Name(中文)"
+             placeholder="名字(中文)"
              ngModel
              name="firstName"
              required
              #firstNameInput="ngModel">
       @if(firstNameInput.hasError('required')) {
-      <mat-error>Field must not be empty.</mat-error>
+      <mat-error>字段不能为空</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field>
       <input type="text"
              matInput
-             placeholder="Last Name(中文)"
+             placeholder="姓氏(中文)"
              ngModel
              name="lastName"
              required
              #lastNameInput="ngModel">
       @if(lastNameInput.hasError('required')) {
-      <mat-error>Field must not be empty.</mat-error>
+      <mat-error>字段不能为空</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field>
       <input type="text"
              matInput
-             placeholder="English Name"
+             placeholder="英文名"
              ngModel
              name="englishName"
              required
              #englishNameInput="ngModel">
       @if(englishNameInput.hasError('required')) {
-      <mat-error>Field must not be empty.</mat-error>
+      <mat-error>字段不能为空</mat-error>
       }
     </mat-form-field>
 
     <mat-form-field>
       <input type="email"
              matInput
-             placeholder="Your email"
+             placeholder="电子邮箱"
              ngModel
              name="email"
              email
              required
              #emailInput="ngModel">
       @if(emailInput.hasError('required')) {
-      <mat-error>Field must not be empty.</mat-error>
+      <mat-error>字段不能为空</mat-error>
       }
       @if(!emailInput.hasError('email')) {
-      <mat-error>E-Mail is invalid.</mat-error>
+      <mat-error>邮箱格式不正确</mat-error>
       }
     </mat-form-field>
-    <mat-form-field hintLabel="Should be at least 6 characters long.">
+    <mat-form-field hintLabel="至少6位字符">
       <input type="password"
              matInput
-             placeholder="Your password"
+             placeholder="密码"
              ngModel
              name="password"
              required
              minlength="6"
              #pwInput="ngModel">
       <mat-hint align="end">{{ pwInput.value?.length }} / 6</mat-hint>
-      <mat-error>Has to be at least 6 characters long.</mat-error>
+      <mat-error>至少6位字符</mat-error>
     </mat-form-field>
 
     <!-- <mat-checkbox ngModel
@@ -81,7 +81,7 @@
     <button type="submit"
             mat-raised-button
             color="primary"
-            [disabled]="f.invalid">Sign Up</button>
+            [disabled]="f.invalid">注册</button>
     }
 
     @if(isLoading) {
