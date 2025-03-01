@@ -14,17 +14,17 @@
   <div class="links">
     <ul class="navigation-items">
       @if(!isAuth) {
-      <li><a routerLink="/signup">Signup</a></li>
-      <li><a routerLink="/login">Login</a></li>
+      <li><a routerLink="/signup">{{APP_MENUS_CHN.signup}}</a></li>
+      <li><a routerLink="/login">{{APP_MENUS_CHN.login}}</a></li>
       }
       <!-- todo: move back to isAuth -->
-      <li><a routerLink="/products">Products</a></li>
+      <li><a routerLink="/products">{{APP_MENUS_CHN.products}}</a></li>
 
       @if(isAuth) {
-      <li><a routerLink="/customers">Customers</a></li>
-      <li><a routerLink="/orders">Orders</a></li>
+      <li><a routerLink="/customers">{{APP_MENUS_CHN.customers}}</a></li>
+      <li><a routerLink="/orders">{{APP_MENUS_CHN.orders}}</a></li>
       <li><a style="cursor: pointer"
-           (click)="onLogout()">Logout</a></li>
+           (click)="onLogout()">{{APP_MENUS_CHN.logout}}</a></li>
       }
     </ul>
   </div>

@@ -8,6 +8,7 @@ import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../../services/auth.service';
+import { APP_MENUS_CHN } from '../../../constants/excel';
 
 @Component({
   selector: 'app-header',
@@ -20,6 +21,7 @@ export class HeaderComponent {
   @Output() sidenavToggle = new EventEmitter<void>();
   isAuth!: boolean;
   authSubscription!: Subscription;
+  APP_MENUS_CHN = APP_MENUS_CHN;
 
   constructor(private authService: AuthService) {}
 

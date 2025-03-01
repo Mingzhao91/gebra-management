@@ -4,13 +4,13 @@
      routerLink="/signup"
      (click)="onClose()">
     <mat-icon>face</mat-icon>
-    <span class="nav-caption">Signup</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.signup}}</span>
   </a>
   <a mat-list-item
      routerLink="/login"
      (click)="onClose()">
     <mat-icon>input</mat-icon>
-    <span class="nav-caption">Login</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.login}}</span>
   </a>
   }
 
@@ -18,7 +18,7 @@
      routerLink="/products"
      (click)="onClose()">
     <mat-icon>phone_iphone</mat-icon>
-    <span class="nav-caption">Products</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.products}}</span>
   </a>
 
   @if(isAuth) {
@@ -26,18 +26,18 @@
      routerLink="/customers"
      (click)="onClose()">
     <mat-icon>people</mat-icon>
-    <span class="nav-caption">Customers</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.customers}}</span>
   </a>
   <a mat-list-item
      routerLink="/orders"
      (click)="onClose()">
     <mat-icon>add_shopping_cart</mat-icon>
-    <span class="nav-caption">Orders</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.orders}}</span>
   </a>
   <a mat-list-item
      (click)="onLogout()">
     <mat-icon>logout</mat-icon>
-    <span class="nav-caption">Logout</span>
+    <span class="nav-caption">{{APP_MENUS_CHN.logout}}</span>
   </a>
   }
 </mat-nav-list>

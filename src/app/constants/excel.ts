@@ -45,6 +45,15 @@ export const ROLE = ['Admin', 'Sales', 'Stock'];
 
 export const CURRENCIES = ['USD', 'CNY'];
 
+export const APP_MENUS_CHN = {
+  signup: '注册',
+  login: '登陆',
+  products: '产品',
+  customers: '客户',
+  orders: '订单',
+  logout: '退出登录',
+};
+
 export const MEDIA_PLATFORMS = [
   'Company Website',
   'Personal Website',
