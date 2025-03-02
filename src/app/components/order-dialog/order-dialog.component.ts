@@ -110,10 +110,10 @@ export class OrderDialogComponent implements OnInit, OnDestroy {
       bareMachineRequirements: [this.data.order?.bareMachineRequirements || ''],
       cartonRequirements: [this.data.order?.cartonRequirements || ''],
       plannedShippingDate: [
-        (this.data.order?.plannedShippingDate as any).toDate() || null,
+        (this.data.order?.plannedShippingDate as any)?.toDate() || null,
       ],
       actualShippingDate: [
-        (this.data.order?.actualShippingDate as any).toDate() || null,
+        (this.data.order?.actualShippingDate as any)?.toDate() || null,
       ],
       shippingChannel: [this.data.order?.shippingChannel || ''],
       internationalLogistics: [this.data.order?.internationalLogistics || ''],

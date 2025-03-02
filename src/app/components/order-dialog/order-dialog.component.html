@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{data.order ? 'Edit Order' : 'Create Order'}}</h2>
+<h2 mat-dialog-title>{{data.order ? '编辑订单' : '创建订单'}}</h2>
 
 <!-- // 'customer',
 
@@ -41,7 +41,7 @@
         }
       </mat-select>
       @if (orderForm.get('customer')?.hasError('required')) {
-      <mat-error>Please choose a customer</mat-error>
+      <mat-error>请选择客户</mat-error>
       }
     </mat-form-field>
 
@@ -71,7 +71,7 @@
                    formControlName="productModel"
                    [errorStateMatcher]="matcher">
             @if (formArr('products').controls[$index].get('productModel')?.hasError('required')) {
-            <mat-error>Please enter a product model</mat-error>
+            <mat-error>请添加产品型号</mat-error>
             }
           </mat-form-field>
 
@@ -83,7 +83,7 @@
                    (ngModelChange)="updateTotal()"
                    [errorStateMatcher]="matcher">
             @if (formArr('products').controls[$index].get('price')?.hasError('required')) {
-            <mat-error>Please enter a price</mat-error>
+            <mat-error>请添加单价</mat-error>
             }
           </mat-form-field>
 
@@ -95,11 +95,9 @@
                    (ngModelChange)="updateTotal()"
                    [errorStateMatcher]="matcher">
             @if (formArr('products').controls[$index].get('quantity')?.hasError('required')) {
-            <mat-error>Please enter a quantity</mat-error>
+            <mat-error>请添加数量</mat-error>
             }
           </mat-form-field>
-
-
 
           <button mat-mini-fab
                   color="warn"
@@ -233,22 +231,19 @@
                 [errorStateMatcher]="matcher"></textarea>
     </mat-form-field>
 
-
-
-
   </mat-dialog-content>
 
   <mat-dialog-actions align="end">
     <button mat-button
-            mat-dialog-close>Cancel</button>
+            mat-dialog-close>取消</button>
     <button mat-button
             type="submit"
-            [disabled]="orderForm.invalid">{{data.order ? 'Update' : 'Create'}}</button>
-    <button mat-button
+            [disabled]="orderForm.invalid">{{data.order ? '保存' : '创建订单'}}</button>
+    <!-- <button mat-button
             type="button"
             (click)="test()">
       Test
-    </button>
+    </button> -->
   </mat-dialog-actions>
 
 </form>
