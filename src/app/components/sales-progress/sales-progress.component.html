@@ -4,7 +4,7 @@
        [ngClass]="{active: salesProgresses.indexOf(currentProgress) >= $index}"
        [ngStyle]="{width: getWidth()}"
        (click)="!isDisabled && onSalesProgressClick($index)">
-    <p>{{item}}</p>
+    <p>{{SALES_PROGRESSES_CHN[item]}}</p>
   </div>
   }
 </div>

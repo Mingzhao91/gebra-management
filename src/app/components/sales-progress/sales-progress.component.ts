@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SALES_PROGRESSES } from '../../constants/excel';
+import { SALES_PROGRESSES, SALES_PROGRESSES_CHN } from '../../constants/excel';
 import { SalesProgress } from '../../interfaces/customer.model';
 
 @Component({
@@ -16,6 +16,7 @@ export class SaleProgressComponent {
   @Input('isDisabled') isDisabled = false;
   @Output('setSalesProgress') setSalesProgress =
     new EventEmitter<SalesProgress>();
+  SALES_PROGRESSES_CHN = SALES_PROGRESSES_CHN;
 
   salesProgresses = SALES_PROGRESSES;
 

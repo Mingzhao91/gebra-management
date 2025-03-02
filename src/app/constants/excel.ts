@@ -32,6 +32,15 @@ export const SALES_PROGRESSES: SalesProgress[] = [
   'Ship Goods',
 ];
 
+export const SALES_PROGRESSES_CHN = {
+  Quotation: '报价',
+  Sample: '样品',
+  PI: '购货发票',
+  Payment: '付款',
+  'Manufacture Goods': '生产',
+  'Ship Goods': '出货',
+};
+
 export const CATEGORIES = [
   'Charging Dock',
   'Mini Fan',
