@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{data.customer ? 'Edit Customer' : 'Create Customer'}}</h2>
+<h2 mat-dialog-title>{{data.customer ? '编辑客户资料' : '创建客户资料'}}</h2>
 
 <form [formGroup]="customerForm"
       class="customer-form"
@@ -9,20 +9,20 @@
     <!-- Name -->
     <mat-form-field class="full-width"
                     appearance="outline">
-      <mat-label>Name</mat-label>
+      <mat-label>客户姓名</mat-label>
       <input type="text"
              matInput
              formControlName="name"
              [errorStateMatcher]="matcher">
       @if (customerForm.get('name')?.hasError('required')) {
-      <mat-error>This field is <strong>required</strong></mat-error>
+      <mat-error>字段不能为空</mat-error>
       }
     </mat-form-field>
 
     <!-- Company -->
     <mat-form-field class="full-width"
                     appearance="outline">
-      <mat-label>Company</mat-label>
+      <mat-label>公司</mat-label>
       <input type="text"
              matInput
              formControlName="company"
@@ -32,7 +32,7 @@
     <!-- country -->
     <mat-form-field class="full-width"
                     appearance="outline">
-      <mat-label>Country</mat-label>
+      <mat-label>国家</mat-label>
       <mat-select formControlName="country"
                   [errorStateMatcher]="matcher">
         <mat-option>--</mat-option>
@@ -41,7 +41,7 @@
         }
       </mat-select>
       @if (customerForm.get('country')?.hasError('required')) {
-      <mat-error>Please choose a country</mat-error>
+      <mat-error>请选择国家</mat-error>
       }
     </mat-form-field>
 
@@ -49,7 +49,7 @@
     <!-- foundFrom -->
     <mat-form-field class="full-width"
                     appearance="outline">
-      <mat-label>Found From</mat-label>
+      <mat-label>客户来源</mat-label>
       <mat-select formControlName="foundFrom"
                   [errorStateMatcher]="matcher">
         <mat-option>--</mat-option>
@@ -58,14 +58,14 @@
         }
       </mat-select>
       @if (customerForm.get('foundFrom')?.hasError('required')) {
-      <mat-error>Please choose a platform</mat-error>
+      <mat-error>请选择来源渠道</mat-error>
       }
     </mat-form-field>
 
     <!-- Contacts -->
     <div>
       <div class="arr-container">
-        <span>Contacts</span>
+        <span>联系方式</span>
         <button mat-mini-fab
                 color="warn"
                 aria-label="Add Contact"
@@ -82,7 +82,7 @@
 
           <mat-form-field appearance="outline"
                           class="arr-item-main">
-            <mat-label>Media Platform</mat-label>
+            <mat-label>平台</mat-label>
             <mat-select formControlName="mediaPlatform">
               <mat-option>--</mat-option>
               @for (platform of platforms; track platform) {
@@ -90,19 +90,19 @@
               }
             </mat-select>
             @if (formArr('contacts').controls[$index].get('mediaPlatform')?.hasError('required')) {
-            <mat-error>Please choose a platform</mat-error>
+            <mat-error>请选择一个平台</mat-error>
             }
           </mat-form-field>
 
 
           <mat-form-field appearance="outline">
-            <mat-label>Link</mat-label>
+            <mat-label>链接</mat-label>
             <input type="text"
                    matInput
                    formControlName="link"
                    [errorStateMatcher]="matcher">
             @if (formArr('contacts').controls[$index].get('link')?.hasError('required')) {
-            <mat-error>Please enter a link</mat-error>
+            <mat-error>请输入链接</mat-error>
             }
           </mat-form-field>
 
@@ -125,7 +125,7 @@
     <!-- Products -->
     <div>
       <div class="arr-container">
-        <span>Products</span>
+        <span>产品</span>
         <button mat-mini-fab
                 color="warn"
                 aria-label="Add Product"
@@ -142,25 +142,25 @@
 
           <mat-form-field appearance="outline"
                           class="arr-item-main">
-            <mat-label>Product</mat-label>
+            <mat-label>产品型号</mat-label>
             <input type="text"
                    matInput
                    formControlName="product"
                    [errorStateMatcher]="matcher">
             @if (formArr('products').controls[$index].get('product')?.hasError('required')) {
-            <mat-error>Please enter a product</mat-error>
+            <mat-error>请输入产品型号</mat-error>
             }
           </mat-form-field>
 
 
           <mat-form-field appearance="outline">
-            <mat-label>Quantity</mat-label>
+            <mat-label>数量</mat-label>
             <input type="number"
                    matInput
                    formControlName="quantity"
                    [errorStateMatcher]="matcher">
             @if (formArr('products').controls[$index].get('quantity')?.hasError('required')) {
-            <mat-error>Please enter a quantity</mat-error>
+            <mat-error>请输入数量</mat-error>
             }
           </mat-form-field>
 
@@ -184,10 +184,10 @@
 
   <mat-dialog-actions align="end">
     <button mat-button
-            mat-dialog-close>Cancel</button>
+            mat-dialog-close>取消</button>
     <button mat-button
             type="submit"
-            [disabled]="customerForm.invalid">{{data.customer ? 'Update' : 'Create'}}</button>
+            [disabled]="customerForm.invalid">{{data.customer ? '保存' : '创建'}}</button>
     <!-- <button mat-button
             type="button"
             (click)="test()">
