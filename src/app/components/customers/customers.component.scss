@@ -28,7 +28,8 @@ table {
 
 .mat-column-edit,
 .mat-column-shipGoods {
-  width: 30px;
+  max-width: 42px;
+  padding: 0;
 }
 
 .mat-column-country {

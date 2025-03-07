@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { DecimalPipe, DatePipe } from '@angular/common';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,6 +32,7 @@ import { UtilsService } from '../../services/utils.service';
   standalone: true,
   imports: [
     DecimalPipe,
+    DatePipe,
     MatIconModule,
     MatButtonModule,
     MatProgressSpinnerModule,
@@ -63,6 +64,7 @@ export class CustomersComponent implements OnInit, OnDestroy {
     'productQuantity',
     'salesProgress',
     'createdBy',
+    'createdDate',
     'edit',
     'shipGoods',
   ];
@@ -90,7 +92,11 @@ export class CustomersComponent implements OnInit, OnDestroy {
     this.customersSub = this.customerService.customers$.subscribe(
       (customers) => {
         if (customers) {
-          this.customers = customers;
+          this.customers = customers.filter((cust) => {
+            // console.log('cust.createdBy: ', cust.createdBy);
+            // console.log('this.authService.docUser: ', this.authService.docUser);
+            return cust.createdBy?.uid === this.authService.docUser?.uid;
+          });
           this.dataSource = new MatTableDataSource(this.customers);
 
           if (this.dataSource) {

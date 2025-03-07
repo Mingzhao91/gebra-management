@@ -95,6 +95,15 @@
           *matCellDef="let row">{{row.createdBy.lastName}}{{row.createdBy.firstName}}</td>
     </ng-container>
 
+    <!-- createdDate column -->
+    <ng-container matColumnDef="createdDate">
+      <th mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header> 创建日期 </th>
+      <td mat-cell
+          *matCellDef="let row"> {{row.createdDate.toDate() | date: 'dd/MM/yy, hh:mm' }} </td>
+    </ng-container>
+
     <!-- products quantity column -->
     <!-- todo: thousand separator -->
     <ng-container matColumnDef="productQuantity">
