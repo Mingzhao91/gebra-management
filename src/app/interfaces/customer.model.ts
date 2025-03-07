@@ -89,4 +89,5 @@ export type MediaPlatform =
   // | 'Minecraft Forums'
   | 'VRChat'
   | 'Email'
-  | 'Contact Number';
+  | 'Contact Number'
+  | 'Skype';

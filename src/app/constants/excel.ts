@@ -121,6 +121,7 @@ export const MEDIA_PLATFORMS = [
   'VRChat',
   'Email',
   'Contact Number',
+  'Skype',
 ];
 
 export const PRODUCTS = [
