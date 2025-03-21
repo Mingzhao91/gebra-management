@@ -92,11 +92,15 @@ export class CustomersComponent implements OnInit, OnDestroy {
     this.customersSub = this.customerService.customers$.subscribe(
       (customers) => {
         if (customers) {
-          this.customers = customers.filter((cust) => {
-            // console.log('cust.createdBy: ', cust.createdBy);
-            // console.log('this.authService.docUser: ', this.authService.docUser);
-            return cust.createdBy?.uid === this.authService.docUser?.uid;
-          });
+          this.customers = customers
+            .filter((cust) => {
+              // console.log('cust.createdBy: ', cust.createdBy);
+              // console.log('this.authService.docUser: ', this.authService.docUser);
+              return cust.createdBy?.uid === this.authService.docUser?.uid;
+            })
+            .sort((a: Customer, b: Customer) => {
+              return b.createdDate.toDate() - a.createdDate.toDate();
+            });
           this.dataSource = new MatTableDataSource(this.customers);
 
           if (this.dataSource) {

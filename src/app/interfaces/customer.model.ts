@@ -15,7 +15,7 @@ export interface Customer {
     quantity: number;
   }[];
   salesProgress: SalesProgress;
-  createdDate: Date;
+  createdDate: Date | any;
   modifiedDate: Date;
 }
 
